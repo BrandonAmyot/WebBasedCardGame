@@ -98,7 +98,7 @@ public class UserRDG {
 	}
 	public static UserRDG find(String username, String password) throws SQLException {
 		Connection con = DBCon.myCon.get();
-		String query = "SELECT id, version, username, password FROM User WHERE username=? AND password=?;";
+		String query = "SELECT * FROM User WHERE username=? AND password=?;";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setString(1, username);
 		ps.setString(2, password);
@@ -123,7 +123,12 @@ public class UserRDG {
 		ps.setString(4, password);
 		return ps.executeUpdate();
 	}
+/*	public int update() throws SQLException {
+		Connection con = DBCon.myCon.get();
 	
+	
+		return ps.executedUpdate();
+	}*/
 	public int delete() throws SQLException {
 		Connection con = DBCon.myCon.get();
 		String query = "DELETE FROM User WHERE id=?;";
