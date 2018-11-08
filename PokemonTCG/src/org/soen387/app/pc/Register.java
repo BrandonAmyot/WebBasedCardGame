@@ -68,26 +68,26 @@ public class Register extends HttpServlet {
 	}
 	
 	public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String user = request.getParameter("user");
-		String pass = request.getParameter("pass");
+		String username = request.getParameter("user");
+		String password = request.getParameter("pass");
 		
-		if(user==null || user.isEmpty() || pass==null || pass.isEmpty()) {
+		if(username==null || username.isEmpty() || password==null || password.isEmpty()) {
 			request.setAttribute("message", "Please enter both a username and a password.");
 			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
 		}
 		else {
 			try {
-				UserRDG u = UserRDG.find(user);
+				UserRDG u = UserRDG.find(username);
 				if(u != null) {
 					request.setAttribute("message", "That user has already registered.");
 					request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
 				}
 				else {
-					u = new UserRDG(UserRDG.getNewUserId(), 1, user, pass);
+					u = new UserRDG(UserRDG.getNewUserId(), 1, username, password);
 					u.insert();	
 					long id = u.getId();
 					request.getSession(true).setAttribute("userid", id);
-					request.setAttribute("message", "User '" + user + "' has been successfully registered.");
+					request.setAttribute("message", "User '" + username + "' has been successfully registered.");
 					request.getRequestDispatcher("WEB-INF/jsp/success.jsp").forward(request, response);								
 				}					
 			}

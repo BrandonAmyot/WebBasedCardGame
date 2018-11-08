@@ -12,8 +12,8 @@ public class UserRDG {
 	
 	private long id;
 	private int version;
-	private String user;
-	private String pass;
+	private String username;
+	private String password;
 	
 	public long getId() {
 		return id;
@@ -27,36 +27,36 @@ public class UserRDG {
 	public void setVersion(int version) {
 		this.version = version;
 	}
-	public String getUser() {
-		return user;
+	public String getUsername() {
+		return username;
 	}
-	public void setUser(String user) {
-		this.user = user;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-	public String getPass() {
-		return pass;
+	public String getPassword() {
+		return password;
 	}
-	public void setPass(String pass) {
-		this.pass = pass;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public UserRDG(long id, int version, String user, String pass) {
+	public UserRDG(long id, int version, String username, String password) {
 		super();
 		this.id = id;
 		this.version = version;
-		this.user = user;
-		this.pass = pass;
+		this.username = username;
+		this.password = password;
 	}
 	
 	public static List<UserRDG> findAll() throws SQLException {
 		List<UserRDG> p = new ArrayList<UserRDG>();
 		Connection con = DBCon.myCon.get();
-		String query = "SELECT id, version, user, pass FROM User;";
+		String query = "SELECT id, version, username, password FROM User;";
 		PreparedStatement ps = con.prepareStatement(query);
 				ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()) {	
-			p.add(new UserRDG(rs.getLong("id"), rs.getInt("version"), rs.getString("user"), rs.getString("pass")));
+			p.add(new UserRDG(rs.getLong("id"), rs.getInt("version"), rs.getString("username"), rs.getString("password")));
 		}
 		rs.close();
 		ps.close();
@@ -66,38 +66,52 @@ public class UserRDG {
 	
 	public static UserRDG find(long id) throws SQLException {
 		Connection con = DBCon.myCon.get();
-		String query = "SELECT id, version, user, pass FROM User WHERE id=?;";
+		String query = "SELECT id, version, username, password FROM User WHERE id=?;";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, id);
 		ResultSet rs = ps.executeQuery();
 		UserRDG p = null;
 		if(rs.next()) {
-			p = new UserRDG(rs.getLong("id"), rs.getInt("version"), rs.getString("user"), rs.getString("pass"));
+			p = new UserRDG(rs.getLong("id"), rs.getInt("version"), rs.getString("username"), rs.getString("password"));
 			rs.close();
 			ps.close();
 		} else {
 			return null;
 		}
-		
 		return p;
 	}
-	public static UserRDG find(String user) throws SQLException {
+	public static UserRDG find(String username) throws SQLException {
 		Connection con = DBCon.myCon.get();
 		String query = "SELECT id, version, username, password FROM User WHERE username=?;";
 		PreparedStatement ps = con.prepareStatement(query);
-		ps.setString(1, user);
+		ps.setString(1, username);
 		ResultSet rs = ps.executeQuery();
 		UserRDG p = null;
 		if(rs.next()) {
-			p = new UserRDG(rs.getLong("id"), rs.getInt("version"), rs.getString("user"), rs.getString("pass"));
+			p = new UserRDG(rs.getLong("id"), rs.getInt("version"), rs.getString("username"), rs.getString("password"));
 			rs.close();
 			ps.close();
 		} else {
 			return null;
-		}
-		
+		}	
 		return p;
-		
+	}
+	public static UserRDG find(String username, String password) throws SQLException {
+		Connection con = DBCon.myCon.get();
+		String query = "SELECT id, version, username, password FROM User WHERE username=? AND password=?;";
+		PreparedStatement ps = con.prepareStatement(query);
+		ps.setString(1, username);
+		ps.setString(2, password);
+		ResultSet rs = ps.executeQuery();
+		UserRDG p = null;
+		if(rs.next()) {
+			p = new UserRDG(rs.getLong("id"), rs.getInt("version"), rs.getString("username"), rs.getString("password"));
+			rs.close();
+			ps.close();
+		} else {
+			return null;
+		}	
+		return p;
 	}
 	public int insert() throws SQLException {
 		Connection con = DBCon.myCon.get();
@@ -105,8 +119,8 @@ public class UserRDG {
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, id);
 		ps.setInt(2, version);
-		ps.setString(3, user);
-		ps.setString(4, pass);
+		ps.setString(3, username);
+		ps.setString(4, password);
 		return ps.executeUpdate();
 	}
 	

@@ -1,6 +1,9 @@
 package org.soen387.app.pc;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,19 +32,19 @@ public class Login extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		String user = request.getParameter("user");
-		String pass = request.getParameter("pass");
-		if(user==null || user.isEmpty() || pass==null || pass.isEmpty() ) {
-			request.setAttribute("message", "Please enter both a username and a password.");
-			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
-		} else if(pass.equals(Register.registeredMap.get(user))) {
-			request.setAttribute("message", "Successfully logged in.");
-			request.getSession(true).setAttribute("login", user);
-			request.getRequestDispatcher("WEB-INF/jsp/success.jsp").forward(request, response);
+		try {
+			DBCon.myCon.set(DriverManager.getConnection("jdbc:mysql://localhost/amyot_brandon?"
+					+"user=amyot_brandon&password=mberfrab&characterEncoding=UTF-8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true"));
 			
-		} else {
-			request.setAttribute("message", "I do not recognize that username and password combination.");
-			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
+			processRequest(request, response);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			Connection con = DBCon.myCon.get();
+			DBCon.myCon.remove();
+			try {con.close();} catch(Exception e) {}
 		}
 		
 	}
@@ -53,6 +56,34 @@ public class Login extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 		
+	}
+	
+	public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username = request.getParameter("user");
+		String password = request.getParameter("pass");
+		
+		if(username==null || username.isEmpty() || password==null || password.isEmpty()) {
+			request.setAttribute("message", "Please enter both a username and a password.");
+			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
+		}
+		else {
+			try {
+				UserRDG u = UserRDG.find(username, password);
+				if(u != null) {
+					long id = u.getId();
+					request.getSession(true).setAttribute("userid", id);
+					request.setAttribute("message", "User '" + username + "' has been successfully logged in.");
+					request.getRequestDispatcher("WEB-INF/jsp/success.jsp").forward(request, response);								
+				}
+				else {	
+					request.setAttribute("message", "I do not recognize that username and password combination.");
+					request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
+				}					
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
