@@ -47,27 +47,8 @@ public class Register extends HttpServlet {
 		try {
 			DBCon.myCon.set(DriverManager.getConnection("jdbc:mysql://localhost/amyot_brandon?"
 					+"user=amyot_brandon&password=mberfrab&characterEncoding=UTF-8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true"));
-
-			String user = request.getParameter("user");
-			String pass = request.getParameter("pass");
-			if(user==null || user.isEmpty() || pass==null || pass.isEmpty() ) {
-				request.setAttribute("message", "Please enter both a username and a password.");
-				request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
-			} else if(registeredMap.containsKey(user)) {
-				request.setAttribute("message", "That user has already registered.");
-				request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
-			} else {
-				registeredMap.put(user, pass);
-				request.setAttribute("message", "That user has been successfully registered.");
-				request.getRequestDispatcher("WEB-INF/jsp/success.jsp").forward(request, response);
-			}
 			
-			UserRDG u = new UserRDG(UserRDG.getNewUserId(), 1, user, pass);
-			u.insert();
-			
-//			request.getSession(true).setAttribute("userid", u.getId());
-//			request.setAttribute("message", "User '" + user + "' has been successfully registered.");
-//			request.getRequestDispatcher("success.jsp").forward(request, response);
+			processRequest(request, response);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -92,11 +73,11 @@ public class Register extends HttpServlet {
 		
 		if(user==null || user.isEmpty() || pass==null || pass.isEmpty()) {
 			request.setAttribute("message", "Please enter both a username and a password.");
-			request.getRequestDispatcher("failure.jsp").forward(request, response);
+			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
 		}
 		else {
 			try {
-				UserRDG u = UserRDG.findByUsername(user);
+				UserRDG u = UserRDG.find(user);
 				if(u != null) {
 					request.setAttribute("message", "That user has already registered.");
 					request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
@@ -107,7 +88,7 @@ public class Register extends HttpServlet {
 					long id = u.getId();
 					request.getSession(true).setAttribute("userid", id);
 					request.setAttribute("message", "User '" + user + "' has been successfully registered.");
-					request.getRequestDispatcher("success.jsp").forward(request, response);									
+					request.getRequestDispatcher("WEB-INF/jsp/success.jsp").forward(request, response);								
 				}					
 			}
 			catch(Exception e) {

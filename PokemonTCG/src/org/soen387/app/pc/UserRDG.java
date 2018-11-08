@@ -64,7 +64,7 @@ public class UserRDG {
 		return p;		
 	}
 	
-	public static UserRDG findById(long id) throws SQLException {
+	public static UserRDG find(long id) throws SQLException {
 		Connection con = DBCon.myCon.get();
 		String query = "SELECT id, version, user, pass FROM User WHERE id=?;";
 		PreparedStatement ps = con.prepareStatement(query);
@@ -81,9 +81,9 @@ public class UserRDG {
 		
 		return p;
 	}
-	public static UserRDG findByUsername(String user) throws SQLException {
+	public static UserRDG find(String user) throws SQLException {
 		Connection con = DBCon.myCon.get();
-		String query = "SELECT user, last_name FROM User WHERE first_name=?;";
+		String query = "SELECT id, version, username, password FROM User WHERE username=?;";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setString(1, user);
 		ResultSet rs = ps.executeQuery();
