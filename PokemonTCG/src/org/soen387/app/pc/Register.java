@@ -3,8 +3,6 @@ package org.soen387.app.pc;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,8 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/Register")
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-	public static Map<String, String>registeredMap = new HashMap<String, String>(); 
 	
     /**
      * @see HttpServlet#HttpServlet()
