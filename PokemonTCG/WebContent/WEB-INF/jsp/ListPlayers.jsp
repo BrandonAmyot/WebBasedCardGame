@@ -1,5 +1,9 @@
 <%@ page trimDirectiveWhitespaces="true"%>
-<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="application/json" %>
+<%
+   response.setContentType("application/json");
+   response.setHeader("Content-Disposition", "inline");
+%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 {
 	"players":[
