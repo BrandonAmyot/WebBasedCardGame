@@ -161,10 +161,8 @@ public class ChallengeRDG {
 			}
 			currentID += 1;
 		}
-		else {
+		else
 			currentID += 1;			
-		}
-		
 		return currentID;
 	}
 	
