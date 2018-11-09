@@ -47,8 +47,11 @@ public class ListPlayers extends HttpServlet {
 		try {
 			DBCon.myCon.set(DriverManager.getConnection("jdbc:mysql://localhost/amyot_brandon?"
 					+"user=amyot_brandon&password=mberfrab&characterEncoding=UTF-8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true"));
+
+			List<UserRDG> listOfPlayers = UserRDG.findAll();
+			request.setAttribute("list", listOfPlayers);
+			request.getRequestDispatcher("WEB-INF/jsp/ListPlayers.jsp").forward(request, response);
 			
-			processRequest(request, response);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -66,18 +69,6 @@ public class ListPlayers extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-	}
-	
-	private void processRequest(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		try {
-			List<UserRDG> listOfPlayers = UserRDG.findAll();
-			request.setAttribute("list", listOfPlayers);
-			request.getRequestDispatcher("WEB-INF/jsp/ListPlayers.jsp").forward(request, response);
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }
