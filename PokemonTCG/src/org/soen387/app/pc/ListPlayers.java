@@ -49,8 +49,14 @@ public class ListPlayers extends HttpServlet {
 					+"user=amyot_brandon&password=mberfrab&characterEncoding=UTF-8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true"));
 
 			List<UserRDG> listOfPlayers = UserRDG.findAll();
-			request.setAttribute("list", listOfPlayers);
-			request.getRequestDispatcher("WEB-INF/jsp/ListPlayers.jsp").forward(request, response);
+			if(listOfPlayers.size() == 0) {
+				request.setAttribute("message", "There are no users registered");
+				request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
+			}
+			else {
+				request.setAttribute("list", listOfPlayers);
+				request.getRequestDispatcher("WEB-INF/jsp/ListPlayers.jsp").forward(request, response);
+			}
 			
 		}
 		catch(Exception e) {
