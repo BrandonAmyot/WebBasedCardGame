@@ -126,7 +126,7 @@ public class ChallengeRDG {
 	}
 	public int insert() throws SQLException {
 		Connection con = DBCon.myCon.get();
-		String query = "INSERT INTO User VALUES (?,?,?,?);";
+		String query = "INSERT INTO Challenge VALUES (?,?,?,?);";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, id);
 		ps.setLong(2, challenger);
@@ -142,7 +142,7 @@ public class ChallengeRDG {
 	}*/
 	public int delete() throws SQLException {
 		Connection con = DBCon.myCon.get();
-		String query = "DELETE FROM User WHERE id=?;";
+		String query = "DELETE FROM Challenge WHERE id=?;";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, this.getId());
 		return ps.executeUpdate();
