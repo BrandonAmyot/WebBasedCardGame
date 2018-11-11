@@ -3,6 +3,7 @@ package org.soen387.app.pc;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,20 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class AcceptChallenge
+ * Servlet implementation class ListChallenges
  */
-@WebServlet("/AcceptChallenge")
-public class AcceptChallenge extends HttpServlet {
+@WebServlet("/ListChallenges")
+public class ListChallenges extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AcceptChallenge() {
+    public ListChallenges() {
         super();
         // TODO Auto-generated constructor stub
     }
-    
+
     @Override
     public void init(javax.servlet.ServletConfig config) throws ServletException {
 		try {
@@ -39,19 +40,12 @@ public class AcceptChallenge extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		Long id = (Long)request.getSession(true).getAttribute("userid");
-		if(id == null) {
-			request.setAttribute("message", "You must be logged in to accept a challenge.");
-			request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
-		}
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			DBCon.myCon.set(DriverManager.getConnection("jdbc:mysql://localhost/amyot_brandon?"
 					+"user=amyot_brandon&password=mberfrab&characterEncoding=UTF-8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true"));
-
-			processRequest(request, response);
 			
+			processRequest(request, response);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -67,33 +61,31 @@ public class AcceptChallenge extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	
+
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) {
-		Long challengeId = Long.parseLong(request.getParameter("challenge"));
-		
 		try {
-			ChallengeRDG challenge = ChallengeRDG.find(challengeId);
-			
-			if(challenge == null) {
-				request.setAttribute("message", "There is no open challenge with id: " + challengeId + ".");
+			Long id = (Long)request.getSession(true).getAttribute("userid");
+			if(id == null) {
+				request.setAttribute("message", "You must be logged in to view challenges.");
 				request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
 			}
-			else if(challenge.getChallenger() == challenge.getChallengee()) {
-				request.setAttribute("message", "You cannot challenge yourself to a match.");
-				request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
+
+			List<ChallengeRDG> listOfChallenges = ChallengeRDG.findAll();
+			if(listOfChallenges.size() == 0) {
+				request.setAttribute("message", "There are no challenges made");
+				request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
 			}
-			challenge.setStatus(4);
-			challenge.update();
+			else {
+				request.setAttribute("list", listOfChallenges);
+				request.getRequestDispatcher("WEB-INF/jsp/ListChallenges.jsp").forward(request, response);
+			}
 			
-			request.setAttribute("message", "Accepted challenge between " + challenge.getChallenger() + " and " + challenge.getChallengee() + ".");
-			request.getRequestDispatcher("/WEB-INF/jsp/success.jsp").forward(request, response);
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 }

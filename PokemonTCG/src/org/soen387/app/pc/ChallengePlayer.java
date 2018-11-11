@@ -72,7 +72,7 @@ public class ChallengePlayer extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	public void processRequest(HttpServletRequest request, HttpServletResponse response){
+	private void processRequest(HttpServletRequest request, HttpServletResponse response){
 		Long challenger = (Long)request.getSession(true).getAttribute("userid");
 		Long challengee = Long.parseLong(request.getParameter("player"));
 		

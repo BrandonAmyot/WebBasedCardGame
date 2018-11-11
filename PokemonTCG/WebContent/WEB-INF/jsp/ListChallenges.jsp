@@ -1,12 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-
-</body>
-</html>
+<%@ page trimDirectiveWhitespaces="true"%>
+<%@ page contentType="application/json" %>
+<%
+   response.setContentType("application/json");
+   response.setHeader("Content-Disposition", "inline");
+%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+{
+	"challenges":[
+		<c:forEach items="${list}" var="challenge" varStatus="loop">
+    		{"id": ${challenge.id}, "challenger": ${challenge.challenger}, "challengee": ${challenge.challengee}, "status": ${challenge.status}}<c:if test="${!loop.last}">,</c:if>
+		</c:forEach>
+	]
+}

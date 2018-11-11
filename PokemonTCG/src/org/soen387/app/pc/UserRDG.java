@@ -51,7 +51,7 @@ public class UserRDG {
 	public static List<UserRDG> findAll() throws SQLException {
 		List<UserRDG> users = new ArrayList<UserRDG>();
 		Connection con = DBCon.myCon.get();
-		String query = "SELECT id, version, username, password FROM User;";
+		String query = "SELECT * FROM User;";
 		PreparedStatement ps = con.prepareStatement(query);
 				ResultSet rs = ps.executeQuery();
 		
