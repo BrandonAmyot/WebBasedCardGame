@@ -49,19 +49,19 @@ public class UserRDG {
 	}
 	
 	public static List<UserRDG> findAll() throws SQLException {
-		List<UserRDG> p = new ArrayList<UserRDG>();
+		List<UserRDG> users = new ArrayList<UserRDG>();
 		Connection con = DBCon.myCon.get();
 		String query = "SELECT id, version, username, password FROM User;";
 		PreparedStatement ps = con.prepareStatement(query);
 				ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()) {	
-			p.add(new UserRDG(rs.getLong("id"), rs.getInt("version"), rs.getString("username"), rs.getString("password")));
+			users.add(new UserRDG(rs.getLong("id"), rs.getInt("version"), rs.getString("username"), rs.getString("password")));
 		}
 		rs.close();
 		ps.close();
 
-		return p;		
+		return users;		
 	}
 	
 	public static UserRDG find(long id) throws SQLException {
@@ -70,15 +70,15 @@ public class UserRDG {
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, id);
 		ResultSet rs = ps.executeQuery();
-		UserRDG p = null;
+		UserRDG user = null;
 		if(rs.next()) {
-			p = new UserRDG(rs.getLong("id"), rs.getInt("version"), rs.getString("username"), rs.getString("password"));
+			user = new UserRDG(rs.getLong("id"), rs.getInt("version"), rs.getString("username"), rs.getString("password"));
 			rs.close();
 			ps.close();
 		} else {
 			return null;
 		}
-		return p;
+		return user;
 	}
 	public static UserRDG find(String username) throws SQLException {
 		Connection con = DBCon.myCon.get();
@@ -86,32 +86,32 @@ public class UserRDG {
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setString(1, username);
 		ResultSet rs = ps.executeQuery();
-		UserRDG p = null;
+		UserRDG user = null;
 		if(rs.next()) {
-			p = new UserRDG(rs.getLong("id"), rs.getInt("version"), rs.getString("username"), rs.getString("password"));
+			user = new UserRDG(rs.getLong("id"), rs.getInt("version"), rs.getString("username"), rs.getString("password"));
 			rs.close();
 			ps.close();
 		} else {
 			return null;
 		}	
-		return p;
+		return user;
 	}
 	public static UserRDG find(String username, String password) throws SQLException {
 		Connection con = DBCon.myCon.get();
-		String query = "SELECT id, version, username, password FROM User WHERE username=? AND password=?;";
+		String query = "SELECT * FROM User WHERE username=? AND password=?;";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setString(1, username);
 		ps.setString(2, password);
 		ResultSet rs = ps.executeQuery();
-		UserRDG p = null;
+		UserRDG user = null;
 		if(rs.next()) {
-			p = new UserRDG(rs.getLong("id"), rs.getInt("version"), rs.getString("username"), rs.getString("password"));
+			user = new UserRDG(rs.getLong("id"), rs.getInt("version"), rs.getString("username"), rs.getString("password"));
 			rs.close();
 			ps.close();
 		} else {
 			return null;
 		}	
-		return p;
+		return user;
 	}
 	public int insert() throws SQLException {
 		Connection con = DBCon.myCon.get();
@@ -123,12 +123,17 @@ public class UserRDG {
 		ps.setString(4, password);
 		return ps.executeUpdate();
 	}
+/*	public int update() throws SQLException {
+		Connection con = DBCon.myCon.get();
 	
+	
+		return ps.executedUpdate();
+	}*/
 	public int delete() throws SQLException {
 		Connection con = DBCon.myCon.get();
 		String query = "DELETE FROM User WHERE id=?;";
 		PreparedStatement ps = con.prepareStatement(query);
-		ps.setLong(1, id);
+		ps.setLong(1, this.getId());
 		return ps.executeUpdate();
 		
 	}
