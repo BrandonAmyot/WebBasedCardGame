@@ -42,13 +42,14 @@ public class UploadDeck extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Long id = (Long)request.getSession(true).getAttribute("userid");
+		Long id = (Long)request.getSession(true).getAttribute("userId");
 		if(id == null) {
 			request.setAttribute("message", "You must be logged in to upload a deck.");
 			request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
 		}
 		else {
-			request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/uploadDeck.jsp").forward(request, response);
+			doPost(request, response);
+			request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/success.jsp").forward(request, response);
 		}
 	}
 
@@ -56,10 +57,16 @@ public class UploadDeck extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		Long id = (Long)request.getSession(true).getAttribute("userid");
+		if(id == null) {
+			request.setAttribute("message", "You must be logged in to upload a deck.");
+			request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
+		}
+		
 		try {
 			DBCon.myCon.set(DriverManager.getConnection("jdbc:mysql://localhost/amyot_brandon?"
 					+"user=amyot_brandon&password=mberfrab&characterEncoding=UTF-8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true"));
+			
 			processRequest(request, response);
 		}
 		catch(Exception e) {
@@ -73,18 +80,18 @@ public class UploadDeck extends HttpServlet {
 	}
 
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		String deck = request.getParameter("cards");
-		String[] cards = deck.split("\n");
+		String cards = request.getParameter("deck");
+		String[] deck = cards.split("\n");
 		Long deckId = (Long)request.getSession(true).getAttribute("userid");
 		
-		if(cards.length != 40) {
+		if(deck.length != 40) {
 			request.setAttribute("message", "You must upload a deck of 40 cards.");
 			request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
 		}
 		else {
 			CardRDG card = null;
-			for(int i = 0; i < cards.length; i++) {
-				String line = cards[i];
+			for(int i = 0; i < deck.length; i++) {
+				String line = deck[i];
 				String type = line.substring(0, 1);
 				String name = line.substring(2, line.length()-1);
 				

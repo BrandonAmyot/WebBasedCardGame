@@ -41,8 +41,11 @@ public class ListPlayers extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		Long id = (Long)request.getSession(true).getAttribute("userid");
+		if(id == null) {
+			request.setAttribute("message", "You must be logged in to view players.");
+			request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
+		}
 		
 		try {
 			DBCon.myCon.set(DriverManager.getConnection("jdbc:mysql://localhost/amyot_brandon?"
