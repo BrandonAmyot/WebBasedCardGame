@@ -3,8 +3,6 @@ package org.soen387.app.pc;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,20 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class ChallengePlayer
+ * Servlet implementation class AcceptChallenge
  */
-@WebServlet("/ChallengePlayer")
-public class ChallengePlayer extends HttpServlet {
+@WebServlet("/AcceptChallenge")
+public class AcceptChallenge extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ChallengePlayer() {
+    public AcceptChallenge() {
         super();
         // TODO Auto-generated constructor stub
     }
-
+    
     @Override
     public void init(javax.servlet.ServletConfig config) throws ServletException {
 		try {
@@ -41,10 +39,10 @@ public class ChallengePlayer extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		Long id = (Long)request.getSession(true).getAttribute("userid");
 		if(id == null) {
-			request.setAttribute("message", "You must be logged in to challenge a player.");
+			request.setAttribute("message", "You must be logged in to accept a challenge.");
 			request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
 		}
 		
@@ -52,7 +50,8 @@ public class ChallengePlayer extends HttpServlet {
 			DBCon.myCon.set(DriverManager.getConnection("jdbc:mysql://localhost/amyot_brandon?"
 					+"user=amyot_brandon&password=mberfrab&characterEncoding=UTF-8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true"));
 
-			processRequest(request, response);	
+			processRequest(request, response);
+			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -72,41 +71,25 @@ public class ChallengePlayer extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	public void processRequest(HttpServletRequest request, HttpServletResponse response){
-		Long challenger = (Long)request.getSession(true).getAttribute("userid");
-		Long challengee = Long.parseLong(request.getParameter("player"));
+	public void processRequest(HttpServletRequest request, HttpServletResponse response) {
+		Long challengeId = Long.parseLong(request.getParameter("player"));
 		
 		try {
-			UserRDG gee = UserRDG.find(challengee);
+			ChallengeRDG challenge = ChallengeRDG.find(challengeId);
 			
-			if(challenger == null) {
-				request.setAttribute("message", "You must be logged in to challenge a player.");
+			if(challenge == null) {
+				request.setAttribute("message", "There is no open challenge with id: " + challengeId + ".");
 				request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
 			}
-			else if(challenger == challengee) {
-				request.setAttribute("message", "You cannot challenge yourself to a match.");
-				request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
-			}
-			else if(gee == null) {
-				request.setAttribute("message", "The player you are trying to challenge doesn't seem to exist.");
-				request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
-			}
-			else if(CardRDG.viewDeck(challenger) == null) {
-				request.setAttribute("message", "You must upload a deck before you can challenge someone.");
-				request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
-			}
-			else {
-				ChallengeRDG challenge = new ChallengeRDG(ChallengeRDG.getNewChallengeId(), challenger, challengee, 0);
-				challenge.insert();
-				
-				request.setAttribute("message", "You have successfully challenged player " + challengee + " to a match!");
-				request.getRequestDispatcher("/WEB-INF/jsp/success.jsp").forward(request, response);
-			}
+			challenge.setStatus(4);
+			challenge.update();
 			
-		} catch (Exception e) {
+			request.setAttribute("message", "Accepted challenge between" + challenge.getChallenger() + " and " + challenge.getChallengee() + ".");
+			request.getRequestDispatcher("/WEB-INF/jsp/success.jsp").forward(request, response);
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 }

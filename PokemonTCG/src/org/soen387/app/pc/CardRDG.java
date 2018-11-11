@@ -48,19 +48,19 @@ public class CardRDG {
 		this.name = name;
 	}
 	
-	public static List<CardRDG> viewDeck(long deckId) throws SQLException {
+	public static List<CardRDG> viewDeck(Long deckId) throws SQLException {
 		List<CardRDG> deck = new ArrayList<CardRDG>();
 		Connection con = DBCon.myCon.get();
-		String query = "SELECT type, name FROM Card WHERE deckId=?;";
+		String query = "SELECT * FROM Card WHERE deckId=?;";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, deckId);
 		ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()) {
 			deck.add(new CardRDG(rs.getLong("deckId"), rs.getLong("cardId"), rs.getString("type"), rs.getString("name")));
-			rs.close();
-			ps.close();
 		}
+		rs.close();
+		ps.close();
 		return deck;
 	}
 	

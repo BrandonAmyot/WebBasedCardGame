@@ -134,12 +134,17 @@ public class ChallengeRDG {
 		ps.setInt(4, status);
 		return ps.executeUpdate();
 	}
-/*	public int update() throws SQLException {
+	public int update() throws SQLException {
 		Connection con = DBCon.myCon.get();
+		String query = "UPDATE Challenge SET challenger=?, challengee=?, status=? WHERE id=?";
+		PreparedStatement ps = con.prepareStatement(query);
+		ps.setLong(1, this.getChallenger());
+		ps.setLong(2, this.getChallengee());
+		ps.setInt(3, this.getStatus());
+		ps.setLong(4, this.getId());
 	
-	
-		return ps.executedUpdate();
-	}*/
+		return ps.executeUpdate();
+	}
 	public int delete() throws SQLException {
 		Connection con = DBCon.myCon.get();
 		String query = "DELETE FROM Challenge WHERE id=?;";

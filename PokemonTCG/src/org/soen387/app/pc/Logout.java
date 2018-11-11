@@ -60,8 +60,13 @@ public class Logout extends HttpServlet {
 	
 	public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			long id = (long)request.getSession(true).getAttribute("userid");
+			Long id = (Long)request.getSession(true).getAttribute("userid");
 			UserRDG u = UserRDG.find(id);
+			
+			if(id == null) {
+				request.setAttribute("message", "Cannot log out user.");
+				request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
+			}
 			
 			request.getSession(true).invalidate();
 			request.setAttribute("message", "User '" + u.getUsername() + "' has been successfully logged out.");
