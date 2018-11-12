@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.soen387.app.dom.CardRDG;
 import org.soen387.app.dom.GameRDG;
 
 /**
@@ -77,11 +76,11 @@ public class ListGames extends HttpServlet {
 			List<GameRDG> games = GameRDG.findAll();
 			if(games.isEmpty()) {
 				request.setAttribute("message", "There are no games to list.");
-				request.getRequestDispatcher("WEB-INF/jsp/viewGames.jsp").forward(request, response);
+				request.getRequestDispatcher("WEB-INF/jsp/listGames.jsp").forward(request, response);
 			}
 			else {
 				request.setAttribute("games", games);
-				request.getRequestDispatcher("WEB-INF/jsp/viewGames.jsp").forward(request, response);
+				request.getRequestDispatcher("WEB-INF/jsp/listGames.jsp").forward(request, response);
 			}
 			
 		}
