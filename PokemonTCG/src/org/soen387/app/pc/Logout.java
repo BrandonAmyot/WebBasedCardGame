@@ -25,6 +25,17 @@ public class Logout extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+    @Override
+    public void init(javax.servlet.ServletConfig config) throws ServletException {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DBCon.makeCon();
+    };
+    
     /**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -50,7 +61,6 @@ public class Logout extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 		
 	}
@@ -58,13 +68,13 @@ public class Logout extends HttpServlet {
 	public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			Long id = (Long)request.getSession(true).getAttribute("userid");
-			UserRDG u = UserRDG.find(id);
 			
 			if(id == null) {
 				request.setAttribute("message", "Cannot log out user.");
 				request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
 			}
 			
+			UserRDG u = UserRDG.find(id);
 			request.getSession(true).invalidate();
 			request.setAttribute("message", "User '" + u.getUsername() + "' has been successfully logged out.");
 			request.getRequestDispatcher("WEB-INF/jsp/success.jsp").forward(request, response);								

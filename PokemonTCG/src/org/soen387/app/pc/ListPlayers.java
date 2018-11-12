@@ -73,7 +73,7 @@ public class ListPlayers extends HttpServlet {
 			}
 
 			List<UserRDG> listOfPlayers = UserRDG.findAll();
-			if(listOfPlayers.size() == 0) {
+			if(listOfPlayers.isEmpty()) {
 				request.setAttribute("message", "There are no users registered");
 				request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
 			}

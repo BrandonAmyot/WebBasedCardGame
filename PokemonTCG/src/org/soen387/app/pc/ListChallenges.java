@@ -73,9 +73,9 @@ public class ListChallenges extends HttpServlet {
 			}
 
 			List<ChallengeRDG> listOfChallenges = ChallengeRDG.findAll();
-			if(listOfChallenges.size() == 0) {
-				request.setAttribute("message", "There are no challenges made");
-				request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
+			if(listOfChallenges.isEmpty()) {
+				request.setAttribute("message", "There are no challenges proposed between players.");
+				request.getRequestDispatcher("WEB-INF/jsp/ListChallenges.jsp").forward(request, response);
 			}
 			else {
 				request.setAttribute("list", listOfChallenges);

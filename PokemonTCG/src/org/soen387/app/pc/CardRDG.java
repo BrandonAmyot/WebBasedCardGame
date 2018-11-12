@@ -8,8 +8,6 @@ import java.util.List;
 
 public class CardRDG {
 	
-	private static long currentID = 0;
-	
 	private long deckId;
 	private long cardId;
 	private String type;
@@ -88,15 +86,6 @@ public class CardRDG {
 		ps.setLong(2, this.getCardId());
 		return ps.executeUpdate();
 		
-	}
-	public static long getNewCardId() throws SQLException{
-		if(currentID < 40) {
-			currentID += 1;
-		}
-		else {
-			currentID = 1;			
-		}
-		return currentID;
 	}
 	
 }

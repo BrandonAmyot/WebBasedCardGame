@@ -3,8 +3,6 @@ package org.soen387.app.pc;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -68,7 +66,6 @@ public class ChallengePlayer extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 	
@@ -83,25 +80,24 @@ public class ChallengePlayer extends HttpServlet {
 				request.setAttribute("message", "You must be logged in to challenge a player.");
 				request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
 			}
-			else if(challenger == challengee) {
+			if(challenger == challengee) {
 				request.setAttribute("message", "You cannot challenge yourself to a match.");
 				request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
 			}
-			else if(gee == null) {
+			if(gee == null) {
 				request.setAttribute("message", "The player you are trying to challenge doesn't seem to exist.");
 				request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
 			}
-			else if(CardRDG.viewDeck(challenger) == null) {
-				request.setAttribute("message", "You must upload a deck before you can challenge someone.");
+			if(CardRDG.viewDeck(challenger).isEmpty() || CardRDG.viewDeck(challengee).isEmpty()) {
+				request.setAttribute("message", "You must both upload a deck before a challenge can be made.");
 				request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
 			}
-			else {
-				ChallengeRDG challenge = new ChallengeRDG(ChallengeRDG.getNewChallengeId(), challenger, challengee, 0);
-				challenge.insert();
-				
-				request.setAttribute("message", "You have successfully challenged player " + challengee + " to a match!");
-				request.getRequestDispatcher("/WEB-INF/jsp/success.jsp").forward(request, response);
-			}
+			
+			ChallengeRDG challenge = new ChallengeRDG(ChallengeRDG.getNewChallengeId(), challenger, challengee, 0);
+			challenge.insert();
+			
+			request.setAttribute("message", "You have successfully challenged player " + challengee + " to a match!");
+			request.getRequestDispatcher("/WEB-INF/jsp/success.jsp").forward(request, response);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
