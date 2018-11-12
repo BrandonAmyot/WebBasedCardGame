@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class ChallengeRDG {
 	public static List<ChallengeRDG> findOpenByChallenger(long challenger) throws SQLException {
 		List<ChallengeRDG> challenges = new ArrayList<ChallengeRDG>();
 		Connection con = DBCon.myCon.get();
-		String query = "SELECT * FROM Challenge WHERE challenger=? AND status=1;";
+		String query = "SELECT * FROM Challenge WHERE challenger=? AND status=0;";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, challenger);
 		ResultSet rs = ps.executeQuery();
@@ -98,7 +99,7 @@ public class ChallengeRDG {
 	public static List<ChallengeRDG> findOpenByChallengee(long challengee) throws SQLException {
 		List<ChallengeRDG> challenges = new ArrayList<ChallengeRDG>();
 		Connection con = DBCon.myCon.get();
-		String query = "SELECT * FROM Challenge WHERE challengee=? AND status=1;";
+		String query = "SELECT * FROM Challenge WHERE challengee=? AND status=0;";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, challengee);
 		ResultSet rs = ps.executeQuery();
@@ -113,7 +114,7 @@ public class ChallengeRDG {
 	public static List<ChallengeRDG> findAllOpen() throws SQLException {
 		List<ChallengeRDG> challenges = new ArrayList<ChallengeRDG>();
 		Connection con = DBCon.myCon.get();
-		String query = "SELECT * FROM Challenge WHERE status=1;";
+		String query = "SELECT * FROM Challenge WHERE status=0;";
 		PreparedStatement ps = con.prepareStatement(query);
 				ResultSet rs = ps.executeQuery();
 		
@@ -170,5 +171,10 @@ public class ChallengeRDG {
 			currentID += 1;			
 		return currentID;
 	}
-	
+	public static void truncateTable() throws SQLException {
+		Connection con = DBCon.myCon.get();
+		Statement update = con.createStatement();
+		update.execute("TRUNCATE Challenge;");
+		
+	}
 }

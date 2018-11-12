@@ -1,4 +1,5 @@
 package org.soen387.app.pc;
+import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -155,6 +156,12 @@ public class UserRDG {
 		}
 		
 		return currentID;
+	}
+	public static void truncateTable() throws SQLException {
+		Connection con = DBCon.myCon.get();
+		Statement update = con.createStatement();
+		update.execute("TRUNCATE User;");
+		
 	}
 	
 }

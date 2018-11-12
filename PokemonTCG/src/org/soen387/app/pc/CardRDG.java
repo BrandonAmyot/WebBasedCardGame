@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,6 +86,12 @@ public class CardRDG {
 		ps.setLong(1, this.getDeckId());
 		ps.setLong(2, this.getCardId());
 		return ps.executeUpdate();
+		
+	}
+	public static void truncateTable() throws SQLException {
+		Connection con = DBCon.myCon.get();
+		Statement update = con.createStatement();
+		update.execute("TRUNCATE Card;");
 		
 	}
 	

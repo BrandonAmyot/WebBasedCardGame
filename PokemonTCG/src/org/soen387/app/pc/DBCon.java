@@ -66,10 +66,8 @@ public class DBCon extends HttpServlet {
 		}
 		
 		if(request.getParameter("mode") != null && request.getParameter("mode").equalsIgnoreCase("xml")) {
-//			request.getRequestDispatcher("/WEB-INF/jsp/xml/DBCon.jsp").forward(request, response);
 			request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
 		} else {
-//			request.getRequestDispatcher("/WEB-INF/jsp/html/DBCon.jsp").forward(request, response);
 			request.getRequestDispatcher("/WEB-INF/jsp/success.jsp").forward(request, response);
 		}
 	}
