@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.soen387.app.dom.ChallengeRDG;
+import org.soen387.app.dom.GameRDG;
 
 /**
  * Servlet implementation class AcceptChallenge
@@ -96,6 +97,10 @@ public class AcceptChallenge extends HttpServlet {
 						else if(openChallenges.get(i).getChallengee() == challengee) {
 							openChallenges.get(i).setStatus(3);
 							openChallenges.get(i).update();
+							
+							GameRDG newGame = new GameRDG(challengeId, openChallenges.get(i).getChallenger(), challengee);
+							newGame.insert();
+							
 							request.setAttribute("message", "Challenge accepted between players: " + openChallenges.get(i).getChallenger() + " and " + challengee + ".");
 							request.getRequestDispatcher("/WEB-INF/jsp/success.jsp").forward(request, response);
 						}

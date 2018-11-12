@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import org.soen387.app.dom.CardRDG;
 import org.soen387.app.dom.ChallengeRDG;
+import org.soen387.app.dom.GameRDG;
 import org.soen387.app.dom.UserRDG;
 
 public class DBCon {
@@ -32,6 +33,7 @@ public class DBCon {
 		UserRDG.truncateTable();
 		CardRDG.truncateTable();
 		ChallengeRDG.truncateTable();
+		GameRDG.truncateTable();
 		System.out.println("Database reset!");
 	}
 
