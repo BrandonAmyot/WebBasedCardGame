@@ -88,7 +88,7 @@ public class ChallengePlayer extends HttpServlet {
 				request.setAttribute("message", "The player you are trying to challenge doesn't seem to exist.");
 				request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
 			}
-			if(CardRDG.viewDeck(challenger).isEmpty() || CardRDG.viewDeck(challengee).isEmpty()) {
+			if(CardRDG.viewDeck(challenger).isEmpty()) {
 				request.setAttribute("message", "You must both upload a deck before a challenge can be made.");
 				request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
 			}
