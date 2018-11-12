@@ -34,7 +34,6 @@ public class ChallengePlayer extends HttpServlet {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		DBCon.makeCon();

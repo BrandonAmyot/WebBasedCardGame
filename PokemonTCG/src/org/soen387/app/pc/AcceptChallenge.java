@@ -100,7 +100,7 @@ public class AcceptChallenge extends HttpServlet {
 							request.getRequestDispatcher("/WEB-INF/jsp/success.jsp").forward(request, response);
 						}
 						else {
-							request.setAttribute("message", "You cannot accept a challenge not made to you.");
+							request.setAttribute("message", "You cannot accept a challenge made to another player.");
 							request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
 						}
 					}
