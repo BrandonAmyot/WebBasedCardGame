@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.soen387.app.dom.CardRDG;
+import org.soen387.app.dom.ChallengeRDG;
+import org.soen387.app.dom.UserRDG;
+
 /**
  * Servlet implementation class ChallengePlayer
  */

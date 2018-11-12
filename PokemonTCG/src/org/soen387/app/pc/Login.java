@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.soen387.app.dom.UserRDG;
+
 /**
  * Servlet implementation class Login
  */
@@ -74,9 +76,9 @@ public class Login extends HttpServlet {
 		}
 		else {
 			try {
-				UserRDG u = UserRDG.find(username, password);
-				if(u != null) {
-					long id = u.getId();
+				UserRDG user = UserRDG.find(username, password);
+				if(user != null) {
+					long id = user.getId();
 					request.getSession(true).setAttribute("userid", id);
 					request.setAttribute("message", "User '" + username + "' has been successfully logged in.");
 					request.getRequestDispatcher("WEB-INF/jsp/success.jsp").forward(request, response);								

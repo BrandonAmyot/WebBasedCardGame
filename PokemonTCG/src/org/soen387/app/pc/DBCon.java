@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.soen387.app.dom.CardRDG;
+import org.soen387.app.dom.ChallengeRDG;
+import org.soen387.app.dom.UserRDG;
+
 public class DBCon {
 
 	public static ThreadLocal<Connection> myCon;

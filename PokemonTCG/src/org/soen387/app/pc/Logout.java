@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.soen387.app.dom.UserRDG;
+
 /**
  * Servlet implementation class Logout
  */
@@ -73,9 +75,9 @@ public class Logout extends HttpServlet {
 				request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
 			}
 			
-			UserRDG u = UserRDG.find(id);
+			UserRDG user = UserRDG.find(id);
 			request.getSession(true).invalidate();
-			request.setAttribute("message", "User '" + u.getUsername() + "' has been successfully logged out.");
+			request.setAttribute("message", "User '" + user.getUsername() + "' has been successfully logged out.");
 			request.getRequestDispatcher("WEB-INF/jsp/success.jsp").forward(request, response);								
 		}
 		catch(Exception e) {
