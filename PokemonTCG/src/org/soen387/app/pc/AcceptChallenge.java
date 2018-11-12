@@ -31,7 +31,6 @@ public class AcceptChallenge extends HttpServlet {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		DBCon.makeCon();
@@ -48,8 +47,7 @@ public class AcceptChallenge extends HttpServlet {
 		}
 		
 		try {
-			DBCon.myCon.set(DriverManager.getConnection("jdbc:mysql://localhost/amyot_brandon?"
-					+"user=amyot_brandon&password=mberfrab&characterEncoding=UTF-8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true"));
+			DBCon.myCon.set(DriverManager.getConnection(DBCon.CONN_STRING));
 
 			processRequest(request, response);
 			

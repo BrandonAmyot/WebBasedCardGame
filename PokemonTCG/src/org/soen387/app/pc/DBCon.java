@@ -7,6 +7,8 @@ import java.sql.SQLException;
 public class DBCon {
 
 	public static ThreadLocal<Connection> myCon;
+	public static final String CONN_STRING = "jdbc:mysql://localhost/amyot_brandon?"
+			+"user=amyot_brandon&password=mberfrab&characterEncoding=UTF-8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true";
 	
     
     public static synchronized void makeCon() {
@@ -21,8 +23,7 @@ public class DBCon {
 	
 	public static void main(String[] args) throws SQLException {
 		makeCon();
-		DBCon.myCon.set(DriverManager.getConnection("jdbc:mysql://localhost/amyot_brandon?"
-				+"user=amyot_brandon&password=mberfrab&characterEncoding=UTF-8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true"));
+		DBCon.myCon.set(DriverManager.getConnection(CONN_STRING));
 		
 		UserRDG.truncateTable();
 		CardRDG.truncateTable();

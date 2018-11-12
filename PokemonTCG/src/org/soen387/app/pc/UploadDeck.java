@@ -42,15 +42,7 @@ public class UploadDeck extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Long id = (Long)request.getSession(true).getAttribute("userId");
-		if(id == null) {
-			request.setAttribute("message", "You must be logged in to upload a deck.");
-			request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
-		}
-		else {
-			doPost(request, response);
-			request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/success.jsp").forward(request, response);
-		}
+		doPost(request, response);
 	}
 
 	/**
@@ -64,8 +56,7 @@ public class UploadDeck extends HttpServlet {
 		}
 		
 		try {
-			DBCon.myCon.set(DriverManager.getConnection("jdbc:mysql://localhost/amyot_brandon?"
-					+"user=amyot_brandon&password=mberfrab&characterEncoding=UTF-8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true"));
+			DBCon.myCon.set(DriverManager.getConnection(DBCon.CONN_STRING));
 			
 			processRequest(request, response);
 		}
