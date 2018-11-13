@@ -60,7 +60,7 @@ public class GameRDG {
 	
 	public static GameRDG find(long id) throws SQLException {
 		Connection con = DBCon.myCon.get();
-		String query = "SELECT id, playerA, challengee, status FROM Game WHERE id=?;";
+		String query = "SELECT id, playerA, playerB FROM Game WHERE id=?;";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, id);
 		ResultSet rs = ps.executeQuery();

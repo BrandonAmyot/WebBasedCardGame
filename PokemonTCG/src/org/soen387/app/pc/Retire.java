@@ -28,6 +28,16 @@ public class Retire extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+    @Override
+    public void init(javax.servlet.ServletConfig config) throws ServletException {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		DBCon.makeCon();
+    };
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
