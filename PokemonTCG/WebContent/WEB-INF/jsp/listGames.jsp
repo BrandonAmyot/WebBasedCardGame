@@ -6,9 +6,9 @@
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 {
-	"challenges":[
-		<c:forEach items="${list}" var="challenge" varStatus="loop">
-    		{"id": ${challenge.id}, "challenger": ${challenge.challenger}, "challengee": ${challenge.challengee}, "status": ${challenge.status}}<c:if test="${!loop.last}">,</c:if>
+	"games": [
+		<c:forEach items="${games}" var="game" varStatus="loop">
+    		{"id": ${game.id}, "players": [${game.playerA}, ${game.playerB}]}<c:if test="${!loop.last}">,</c:if>
 		</c:forEach>
 	]
 }

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.soen387.app.dom.UserRDG;
+
 /**
  * Servlet implementation class Logout
  */
@@ -25,16 +27,23 @@ public class Logout extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+    @Override
+    public void init(javax.servlet.ServletConfig config) throws ServletException {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DBCon.makeCon();
+    };
+    
     /**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		
 		try {
-			DBCon.myCon.set(DriverManager.getConnection("jdbc:mysql://localhost/amyot_brandon?"
-					+"user=amyot_brandon&password=mberfrab&characterEncoding=UTF-8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true"));
+			DBCon.myCon.set(DriverManager.getConnection(DBCon.CONN_STRING));
 			
 			processRequest(request, response);
 		}
@@ -53,18 +62,22 @@ public class Logout extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 		
 	}
 	
 	public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			long id = (long)request.getSession(true).getAttribute("userid");
-			UserRDG u = UserRDG.find(id);
+			Long id = (Long)request.getSession(true).getAttribute("userid");
 			
+			if(id == null) {
+				request.setAttribute("message", "Cannot log out user.");
+				request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
+			}
+			
+			UserRDG user = UserRDG.find(id);
 			request.getSession(true).invalidate();
-			request.setAttribute("message", "User '" + u.getUsername() + "' has been successfully logged out.");
+			request.setAttribute("message", "User '" + user.getUsername() + "' has been successfully logged out.");
 			request.getRequestDispatcher("WEB-INF/jsp/success.jsp").forward(request, response);								
 		}
 		catch(Exception e) {

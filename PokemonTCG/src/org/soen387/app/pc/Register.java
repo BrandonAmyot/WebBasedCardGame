@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.soen387.app.dom.UserRDG;
+
 /**
  * Servlet implementation class Register
  */
@@ -39,10 +41,8 @@ public class Register extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		try {
-			DBCon.myCon.set(DriverManager.getConnection("jdbc:mysql://localhost/amyot_brandon?"
-					+"user=amyot_brandon&password=mberfrab&characterEncoding=UTF-8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true"));
+			DBCon.myCon.set(DriverManager.getConnection(DBCon.CONN_STRING));
 			
 			processRequest(request, response);
 		}
@@ -73,15 +73,15 @@ public class Register extends HttpServlet {
 		}
 		else {
 			try {
-				UserRDG u = UserRDG.find(username);
-				if(u != null) {
+				UserRDG user = UserRDG.find(username);
+				if(user != null) {
 					request.setAttribute("message", "That user has already registered.");
 					request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
 				}
 				else {
-					u = new UserRDG(UserRDG.getNewUserId(), 1, username, password);
-					u.insert();	
-					long id = u.getId();
+					user = new UserRDG(UserRDG.getNewUserId(), 1, username, password);
+					user.insert();	
+					long id = user.getId();
 					request.getSession(true).setAttribute("userid", id);
 					request.setAttribute("message", "User '" + username + "' has been successfully registered.");
 					request.getRequestDispatcher("WEB-INF/jsp/success.jsp").forward(request, response);								

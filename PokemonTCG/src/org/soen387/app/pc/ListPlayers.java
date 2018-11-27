@@ -11,13 +11,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.soen387.app.dom.UserRDG;
+
 /**
  * Servlet implementation class ListPlayers
  */
 @WebServlet("/ListPlayers")
 public class ListPlayers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -36,31 +38,15 @@ public class ListPlayers extends HttpServlet {
 		}
 		DBCon.makeCon();
     };
-    
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Long id = (Long)request.getSession(true).getAttribute("userid");
-		if(id == null) {
-			request.setAttribute("message", "You must be logged in to view players.");
-			request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
-		}
-		
 		try {
-			DBCon.myCon.set(DriverManager.getConnection("jdbc:mysql://localhost/amyot_brandon?"
-					+"user=amyot_brandon&password=mberfrab&characterEncoding=UTF-8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true"));
+			DBCon.myCon.set(DriverManager.getConnection(DBCon.CONN_STRING));
 
-			List<UserRDG> listOfPlayers = UserRDG.findAll();
-			if(listOfPlayers.size() == 0) {
-				request.setAttribute("message", "There are no users registered");
-				request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
-			}
-			else {
-				request.setAttribute("list", listOfPlayers);
-				request.getRequestDispatcher("WEB-INF/jsp/ListPlayers.jsp").forward(request, response);
-			}
-			
+			processRequest(request, response);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -76,8 +62,31 @@ public class ListPlayers extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+
+	private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			Long id = (Long)request.getSession(true).getAttribute("userid");
+			if(id == null) {
+				request.setAttribute("message", "You must be logged in to view players.");
+				request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
+			}
+
+			List<UserRDG> listOfPlayers = UserRDG.findAll();
+			if(listOfPlayers.isEmpty()) {
+				request.setAttribute("message", "There are no users registered");
+				request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
+			}
+			else {
+				request.setAttribute("list", listOfPlayers);
+				request.getRequestDispatcher("WEB-INF/jsp/ListPlayers.jsp").forward(request, response);
+			}
+
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
