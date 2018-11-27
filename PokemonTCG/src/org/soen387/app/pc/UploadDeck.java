@@ -20,7 +20,7 @@ import org.soen387.app.dom.CardRDG;
 @WebServlet("/UploadDeck")
 public class UploadDeck extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -39,7 +39,7 @@ public class UploadDeck extends HttpServlet {
 		}
 		DBCon.makeCon();
     };
-    
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -56,10 +56,10 @@ public class UploadDeck extends HttpServlet {
 			request.setAttribute("message", "You must be logged in to upload a deck.");
 			request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
 		}
-		
+
 		try {
 			DBCon.myCon.set(DriverManager.getConnection(DBCon.CONN_STRING));
-			
+
 			processRequest(request, response);
 		}
 		catch(Exception e) {
@@ -76,7 +76,7 @@ public class UploadDeck extends HttpServlet {
 		String cards = request.getParameter("deck");
 		String[] deck = cards.split("\n");
 		Long deckId = (Long)request.getSession(true).getAttribute("userid");
-		
+
 		if(deck.length != 40) {
 			request.setAttribute("message", "You must upload a deck of 40 cards.");
 			request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
@@ -87,7 +87,7 @@ public class UploadDeck extends HttpServlet {
 				String line = deck[i];
 				String type = line.substring(0, 1);
 				String name = line.substring(2, line.length()-1);
-				
+
 				card = new CardRDG(deckId, i+1, type, name);
 				card.insert();
 			}

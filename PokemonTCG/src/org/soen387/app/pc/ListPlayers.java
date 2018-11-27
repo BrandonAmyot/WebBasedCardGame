@@ -19,7 +19,7 @@ import org.soen387.app.dom.UserRDG;
 @WebServlet("/ListPlayers")
 public class ListPlayers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -38,14 +38,14 @@ public class ListPlayers extends HttpServlet {
 		}
 		DBCon.makeCon();
     };
-    
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			DBCon.myCon.set(DriverManager.getConnection(DBCon.CONN_STRING));
-			
+
 			processRequest(request, response);
 		}
 		catch(Exception e) {
@@ -82,11 +82,11 @@ public class ListPlayers extends HttpServlet {
 				request.setAttribute("list", listOfPlayers);
 				request.getRequestDispatcher("WEB-INF/jsp/ListPlayers.jsp").forward(request, response);
 			}
-			
+
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

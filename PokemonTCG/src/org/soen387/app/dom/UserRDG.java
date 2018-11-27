@@ -10,14 +10,14 @@ import java.util.List;
 import org.soen387.app.pc.DBCon;
 
 public class UserRDG {
-	
+
 	private static long currentID = 0;
-	
+
 	private long id;
 	private int version;
 	private String username;
 	private String password;
-	
+
 	public long getId() {
 		return id;
 	}
@@ -50,23 +50,23 @@ public class UserRDG {
 		this.username = username;
 		this.password = password;
 	}
-	
+
 	public static List<UserRDG> findAll() throws SQLException {
 		List<UserRDG> users = new ArrayList<UserRDG>();
 		Connection con = DBCon.myCon.get();
 		String query = "SELECT * FROM User;";
 		PreparedStatement ps = con.prepareStatement(query);
 				ResultSet rs = ps.executeQuery();
-		
-		while(rs.next()) {	
+
+		while(rs.next()) {
 			users.add(new UserRDG(rs.getLong("id"), rs.getInt("version"), rs.getString("username"), rs.getString("password")));
 		}
 		rs.close();
 		ps.close();
 
-		return users;		
+		return users;
 	}
-	
+
 	public static UserRDG find(long id) throws SQLException {
 		Connection con = DBCon.myCon.get();
 		String query = "SELECT id, version, username, password FROM User WHERE id=?;";
@@ -96,7 +96,7 @@ public class UserRDG {
 			ps.close();
 		} else {
 			return null;
-		}	
+		}
 		return user;
 	}
 	public static UserRDG find(String username, String password) throws SQLException {
@@ -113,7 +113,7 @@ public class UserRDG {
 			ps.close();
 		} else {
 			return null;
-		}	
+		}
 		return user;
 	}
 	public int insert() throws SQLException {
@@ -128,8 +128,8 @@ public class UserRDG {
 	}
 /*	public int update() throws SQLException {
 		Connection con = DBCon.myCon.get();
-	
-	
+
+
 		return ps.executedUpdate();
 	}*/
 	public int delete() throws SQLException {
@@ -138,7 +138,7 @@ public class UserRDG {
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, this.getId());
 		return ps.executeUpdate();
-		
+
 	}
 	public static long getNewUserId() throws SQLException{
 		if(currentID == 0) {
@@ -154,16 +154,16 @@ public class UserRDG {
 			currentID += 1;
 		}
 		else {
-			currentID += 1;			
+			currentID += 1;
 		}
-		
+
 		return currentID;
 	}
 	public static void truncateTable() throws SQLException {
 		Connection con = DBCon.myCon.get();
 		Statement update = con.createStatement();
 		update.execute("TRUNCATE User;");
-		
+
 	}
-	
+
 }

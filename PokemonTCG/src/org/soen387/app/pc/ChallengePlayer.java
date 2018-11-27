@@ -20,7 +20,7 @@ import org.soen387.app.dom.UserRDG;
 @WebServlet("/ChallengePlayer")
 public class ChallengePlayer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -38,7 +38,7 @@ public class ChallengePlayer extends HttpServlet {
 		}
 		DBCon.makeCon();
     };
-    
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -48,11 +48,11 @@ public class ChallengePlayer extends HttpServlet {
 			request.setAttribute("message", "You must be logged in to challenge a player.");
 			request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
 		}
-		
+
 		try {
 			DBCon.myCon.set(DriverManager.getConnection(DBCon.CONN_STRING));
 
-			processRequest(request, response);	
+			processRequest(request, response);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -70,14 +70,14 @@ public class ChallengePlayer extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-	
+
 	private void processRequest(HttpServletRequest request, HttpServletResponse response){
 		Long challenger = (Long)request.getSession(true).getAttribute("userid");
 		Long challengee = Long.parseLong(request.getParameter("player"));
-		
+
 		try {
 			UserRDG gee = UserRDG.find(challengee);
-			
+
 			if(challenger == null) {
 				request.setAttribute("message", "You must be logged in to challenge a player.");
 				request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
@@ -94,17 +94,17 @@ public class ChallengePlayer extends HttpServlet {
 				request.setAttribute("message", "You must both upload a deck before a challenge can be made.");
 				request.getRequestDispatcher("/WEB-INF/jsp/fail.jsp").forward(request, response);
 			}
-			
+
 			ChallengeRDG challenge = new ChallengeRDG(ChallengeRDG.getNewChallengeId(), challenger, challengee, 0);
 			challenge.insert();
-			
+
 			request.setAttribute("message", "You have successfully challenged player " + challengee + " to a match!");
 			request.getRequestDispatcher("/WEB-INF/jsp/success.jsp").forward(request, response);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }
