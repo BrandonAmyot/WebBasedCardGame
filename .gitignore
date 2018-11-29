@@ -16,3 +16,16 @@ poke/.settings/org.eclipse.jdt.core.prefs
 poke/.settings/.jsdtscope
 poke/.project
 poke/.classpath
+PokemonTCG/.settings/org.eclipse.wst.common.component
+PokemonTCG/src/Access.xml
+PokemonTCG/.settings/org.eclipse.wst.common.project.facet.core.xml
+PokemonTCG/src/MyResources.properties
+PokemonTCG/src/log4j.properties
+PokemonTCG/.settings/org.eclipse.wst.jsdt.ui.superType.name
+PokemonTCG/.settings/org.eclipse.wst.jsdt.ui.superType.container
+PokemonTCG/.settings/org.eclipse.jdt.core.prefs
+PokemonTCG/.settings/.jsdtscope
+PokemonTCG/.project
+PokemonTCG/.classpath
+PokemonTCG/WebContent/META-INF/MANIFEST.MF
+PokemonTCG/src/Permalink.xml
