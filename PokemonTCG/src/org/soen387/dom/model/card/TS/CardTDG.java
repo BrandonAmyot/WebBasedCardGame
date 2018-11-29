@@ -1,4 +1,4 @@
-package org.soen387.dom.model.card.TDG;
+package org.soen387.dom.model.card.TS;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

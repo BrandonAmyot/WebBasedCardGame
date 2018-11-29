@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import org.dsrg.soenea.domain.MapperException;
 import org.dsrg.soenea.domain.mapper.GenericOutputMapper;
 import org.soen387.dom.model.card.Card;
-import org.soen387.dom.model.card.TDG.CardTDG;
+import org.soen387.dom.model.card.TS.CardTDG;
 
 public class CardOutputMapper extends GenericOutputMapper<Long, Card>{
 
