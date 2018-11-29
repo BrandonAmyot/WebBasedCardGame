@@ -3,7 +3,7 @@ package org.soen387.dom.model.card;
 import org.dsrg.soenea.domain.DomainObjectCreationException;
 import org.dsrg.soenea.domain.MapperException;
 import org.dsrg.soenea.domain.proxy.DomainObjectProxy;
-import org.soen387.dom.model.card.Mappers.CardMapper;
+import org.soen387.dom.model.card.Mappers.CardInputMapper;
 
 public class CardProxy extends DomainObjectProxy<Long, Card> implements ICard{
 
@@ -15,7 +15,7 @@ public class CardProxy extends DomainObjectProxy<Long, Card> implements ICard{
 	protected Card getFromMapper(Long cardId) throws MapperException, DomainObjectCreationException {
 		try {
 			Long deckId = this.getDeckId();
-			return CardMapper.find(deckId, cardId);
+			return CardInputMapper.find(deckId, cardId);
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
