@@ -15,6 +15,9 @@ public class CardMapper {
 		
 		return deck;
 	}
+	public static Card find(Long deckId, Long cardId) throws SQLException {
+		return CardTDG.find(deckId, cardId);
+	}
 	
 	public static void insert(long deckId, long cardId, String type, String name) throws SQLException {
 		CardTDG.insert(deckId, cardId, type, name);

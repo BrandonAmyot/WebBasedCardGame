@@ -52,6 +52,25 @@ public class CardTDG {
 		return deck;
 	}
 	
+	public static Card find(Long deckId, Long cardId) throws SQLException {
+		Connection con = DbRegistry.getDbConnection();
+		String query = "SELECT * FROM Card WHERE deckId=? AND cardId=?;";
+		PreparedStatement ps = con.prepareStatement(query);
+		ps.setLong(1, deckId);
+		ps.setLong(2, cardId);
+		ResultSet rs = ps.executeQuery();
+		Card card = null;
+		
+		if(rs.next()) {
+			card = new Card(rs.getLong("deckId"), rs.getLong("cardId"), rs.getString("type"), rs.getString("name"));
+			rs.close();
+			ps.close();
+		} else {
+			return null;
+		}
+		return card;
+	}
+	
 	public static void insert(long deckId, long cardId, String type, String name) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
 		String query = "INSERT INTO Card VALUES (?,?,?,?);";
