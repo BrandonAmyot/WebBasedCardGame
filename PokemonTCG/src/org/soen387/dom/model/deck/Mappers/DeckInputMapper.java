@@ -11,7 +11,7 @@ import org.dsrg.soenea.domain.mapper.IdentityMap;
 import org.soen387.dom.model.card.Card;
 import org.soen387.dom.model.card.Mappers.CardInputMapper;
 import org.soen387.dom.model.deck.Deck;
-import org.soen387.dom.model.deck.TS.DeckFinder;
+import org.soen387.dom.model.deck.ts.DeckFinder;
 
 public class DeckInputMapper {
 	public static Deck find(Long deckId) throws SQLException, MapperException {
