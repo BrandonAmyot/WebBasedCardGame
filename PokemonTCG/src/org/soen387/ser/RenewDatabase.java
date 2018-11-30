@@ -2,7 +2,9 @@ package org.soen387.ser;
 
 import org.dsrg.soenea.service.tdg.UserTDG;
 import org.soen387.app.PokeFC;
+import org.soen387.dom.model.card.ts.CardTDG;
 import org.soen387.dom.model.challenge.TDG.ChallengeTDG;
+import org.soen387.dom.model.deck.TS.DeckTDG;
 
 public class RenewDatabase {
 
@@ -10,6 +12,8 @@ public class RenewDatabase {
 		PokeFC.prepareDbRegistry("");
 		try {
 		UserTDG.dropTable();
+		CardTDG.dropTable();
+		DeckTDG.dropTable();
 		ChallengeTDG.dropTable();
 		} catch(Exception e){}
 		
@@ -21,6 +25,8 @@ public class RenewDatabase {
 		try {
 			UserTDG.createTable();
 			UserTDG.createUserRoleTable();
+			CardTDG.createTable();
+			DeckTDG.createTable();
 			ChallengeTDG.createTable();
 		} catch(Exception e){}
 

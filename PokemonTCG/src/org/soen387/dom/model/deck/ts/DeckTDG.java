@@ -1,4 +1,4 @@
-package org.soen387.dom.model.card.ts;
+package org.soen387.dom.model.deck.ts;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,16 +7,15 @@ import java.sql.Statement;
 
 import org.dsrg.soenea.service.threadLocal.DbRegistry;
 
-public class CardTDG {
-	public static final String BASE = "Card";
+public class DeckTDG {
+	public static final String BASE = "Deck";
 	public static final String TABLE_NAME = DbRegistry.getTablePrefix()+BASE;
 	public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME + ";";
 	public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME + ";";
 	public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
 			+ "deckId long, "
-			+ "cardId long, "
-			+ "type VARCHAR(5), "
-			+ "name VARCHAR(25));";
+			+ "userId long, "
+			+ "version long)";
 	
 	public static void createTable() throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
@@ -32,34 +31,32 @@ public class CardTDG {
 		update.execute(DROP_TABLE);
 	}
 	
-	public static int insert(long deckId, long cardId, String type, String name) throws SQLException {
+	public static int insert(long deckId, long userId, long version) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
-		String query = "INSERT INTO Card VALUES (?,?,?,?);";
+		String query = "INSERT INTO " + TABLE_NAME + " VALUES (?,?,?,?);";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, deckId);
-		ps.setLong(2, cardId);
-		ps.setString(3, type);
-		ps.setString(4, name);
+		ps.setLong(2, userId);
+		ps.setLong(3, version);
 		
 		return ps.executeUpdate();
 	}
-	public static int update(long deckId, long cardId, String type, String name) throws SQLException {
+	public static int update(long deckId, long userId, long version) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
-		String query = "UPDATE Card SET type=?, name=?, WHERE deckId=? AND cardId=?";
+		String query = "UPDATE " + TABLE_NAME + " SET userId=?, version=?, WHERE deckId=?";
 		PreparedStatement ps = con.prepareStatement(query);
-		ps.setString(1, type);
-		ps.setString(2, name);
+		ps.setLong(1, userId);
+		ps.setLong(2, version + 1);
 		ps.setLong(3, deckId);
-		ps.setLong(4, cardId);
 		
 		return ps.executeUpdate();
 	}
-	public static int delete(long deckId, long cardId) throws SQLException {
+	public static int delete(long deckId, long userId) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
-		String query = "DELETE FROM Card WHERE deckId=? AND cardId=?;";
+		String query = "DELETE FROM " + TABLE_NAME + " WHERE deckId=? AND userId=?;";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, deckId);
-		ps.setLong(2, cardId);
+		ps.setLong(1, userId);
 		
 		return ps.executeUpdate();
 	}

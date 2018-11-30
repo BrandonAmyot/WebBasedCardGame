@@ -20,7 +20,7 @@ public class ChallengeTDG {
 			+ "id long, "
 			+ "challenger long, "
 			+ "challengee long, "
-			+ "status int)";
+			+ "status int);";
 	
 	public static void createTable() throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
