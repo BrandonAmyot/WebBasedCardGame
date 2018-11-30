@@ -11,7 +11,7 @@ import org.dsrg.soenea.domain.mapper.DomainObjectNotFoundException;
 import org.dsrg.soenea.domain.mapper.IdentityMap;
 import org.dsrg.soenea.uow.UoW;
 import org.soen387.dom.model.card.Card;
-import org.soen387.dom.model.card.TS.CardFinder;
+import org.soen387.dom.model.card.ts.CardFinder;
 
 
 public class CardInputMapper {

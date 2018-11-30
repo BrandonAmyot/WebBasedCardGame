@@ -1,7 +1,7 @@
 package org.soen387.dom.model.card;
 import org.dsrg.soenea.domain.DomainObject;
 
-public class Card extends DomainObject<Long> implements ICard{
+public class Card extends DomainObject<Long> implements ICard {
 	private long deckId;
 	private long cardId;
 	private String type;
