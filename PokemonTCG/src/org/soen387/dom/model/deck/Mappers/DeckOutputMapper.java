@@ -12,7 +12,7 @@ public class DeckOutputMapper extends GenericOutputMapper<Long, Deck> {
 	@Override
 	public void insert(Deck d) throws MapperException {
 		try {
-			DeckTDG.insert(d.getDeckId(), d.getUserId(), d.getVersion());
+			DeckTDG.insert(d.getDeckId(), d.getUserId());
 		} catch (SQLException e) {
 			throw new MapperException(e);
 		}
@@ -21,7 +21,7 @@ public class DeckOutputMapper extends GenericOutputMapper<Long, Deck> {
 	@Override
 	public void update(Deck d) throws MapperException {
 		try {
-			DeckTDG.update(d.getDeckId(), d.getUserId(), d.getVersion());
+			DeckTDG.update(d.getDeckId(), d.getUserId());
 		} catch (SQLException e) {
 			throw new MapperException(e);
 		}

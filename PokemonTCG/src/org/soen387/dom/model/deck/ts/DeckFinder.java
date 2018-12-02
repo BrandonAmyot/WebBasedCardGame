@@ -1,4 +1,4 @@
-package org.soen387.dom.model.deck.TS;
+package org.soen387.dom.model.deck.ts;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

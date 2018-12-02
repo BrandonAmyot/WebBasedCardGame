@@ -13,9 +13,9 @@ public class DeckProxy extends DomainObjectProxy<Long, Deck> implements IDeck {
 	}
 
 	@Override
-	protected Deck getFromMapper(Long id) throws MapperException, DomainObjectCreationException {
+	protected Deck getFromMapper(Long deckId) throws MapperException, DomainObjectCreationException {
 		try {
-			Long deckId = this.getDeckId();
+			deckId = this.getDeckId();
 			return DeckInputMapper.find(deckId);
 		} 
 		catch (Exception e) {

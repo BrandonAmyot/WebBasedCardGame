@@ -45,11 +45,8 @@ public class DeckInputMapper {
 			d = IdentityMap.get(deckId, Deck.class);
 		}
 		else {
-			List <Card> cards = CardInputMapper.viewDeck(deckId);
 			d = new Deck(rs.getLong("deckId"),
-					rs.getLong("userId"),
-					rs.getLong("version"),
-					cards);
+					rs.getLong("userId"));
 		}
 		return d;
 	}

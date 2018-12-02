@@ -12,8 +12,4 @@ public interface IDeck extends IDomainObject<Long> {
 	
 	public abstract void setUserId(long userId);
 	
-	public abstract long getVersion();
-	
-	public abstract void setVersion(long version);
-	
 }

@@ -14,8 +14,7 @@ public class DeckTDG {
 	public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME + ";";
 	public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
 			+ "deckId long, "
-			+ "userId long, "
-			+ "version long)";
+			+ "userId long)";
 	
 	public static void createTable() throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
@@ -31,23 +30,21 @@ public class DeckTDG {
 		update.execute(DROP_TABLE);
 	}
 	
-	public static int insert(long deckId, long userId, long version) throws SQLException {
+	public static int insert(long deckId, long userId) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
-		String query = "INSERT INTO " + TABLE_NAME + " VALUES (?,?,?,?);";
+		String query = "INSERT INTO " + TABLE_NAME + " VALUES (?,?);";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, deckId);
 		ps.setLong(2, userId);
-		ps.setLong(3, version);
 		
 		return ps.executeUpdate();
 	}
-	public static int update(long deckId, long userId, long version) throws SQLException {
+	public static int update(long deckId, long userId) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
-		String query = "UPDATE " + TABLE_NAME + " SET userId=?, version=?, WHERE deckId=?";
+		String query = "UPDATE " + TABLE_NAME + " SET userId=? WHERE deckId=?";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, userId);
-		ps.setLong(2, version + 1);
-		ps.setLong(3, deckId);
+		ps.setLong(2, deckId);
 		
 		return ps.executeUpdate();
 	}
