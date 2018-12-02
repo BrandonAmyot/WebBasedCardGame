@@ -28,8 +28,14 @@ public class CardInputMapper {
 	}
 	public static Card find(Long deckId, Long cardId) throws SQLException, MapperException {
 		try {
+			Card card = null;
 			ResultSet rs = CardFinder.find(deckId, cardId);
-			Card card = buildCard(rs);
+			if(IdentityMap.has(cardId, Card.class)) {
+				card = IdentityMap.get(cardId, Card.class);
+			}
+			else {
+				card = buildCard(rs);
+			}
 			return card;
 		}
 		catch(SQLException e) {
@@ -59,7 +65,8 @@ public class CardInputMapper {
 		Card card = new Card(rs.getLong("deckId"),
 				rs.getLong("cardId"),
 				rs.getString("type"),
-				rs.getString("name"));
+				rs.getString("name"),
+				rs.getString("basic"));
 		return card;
 	}
 }

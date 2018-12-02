@@ -6,6 +6,7 @@ public class Card extends DomainObject<Long> implements ICard {
 	private long cardId;
 	private String type;
 	private String name;
+	private String basic;
 	
 	public long getDeckId() {
 		return deckId;
@@ -31,12 +32,19 @@ public class Card extends DomainObject<Long> implements ICard {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public String getBasic() {
+		return basic;
+	}
+	public void setBasic(String basic) {
+		this.basic = basic;
+	}
 	
-	public Card(long deckId, long cardId, String type, String name) {
+	public Card(long deckId, long cardId, String type, String name, String basic) {
 		super(cardId);
 		this.deckId = deckId;
 		this.cardId = cardId;
 		this.type = type;
 		this.name = name;
+		this.basic = basic;
 	}
 }

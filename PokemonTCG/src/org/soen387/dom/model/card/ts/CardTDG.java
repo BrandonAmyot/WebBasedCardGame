@@ -16,7 +16,8 @@ public class CardTDG {
 			+ "deckId long, "
 			+ "cardId long, "
 			+ "type VARCHAR(5), "
-			+ "name VARCHAR(25));";
+			+ "name VARCHAR(25),"
+			+ "basic VARCHAR(25));";
 	
 	public static void createTable() throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
@@ -32,25 +33,27 @@ public class CardTDG {
 		update.execute(DROP_TABLE);
 	}
 	
-	public static int insert(long deckId, long cardId, String type, String name) throws SQLException {
+	public static int insert(long deckId, long cardId, String type, String name, String basic) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
-		String query = "INSERT INTO Card VALUES (?,?,?,?);";
+		String query = "INSERT INTO Card VALUES (?,?,?,?,?);";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, deckId);
 		ps.setLong(2, cardId);
 		ps.setString(3, type);
 		ps.setString(4, name);
+		ps.setString(5, basic);
 		
 		return ps.executeUpdate();
 	}
-	public static int update(long deckId, long cardId, String type, String name) throws SQLException {
+	public static int update(long deckId, long cardId, String type, String name, String basic) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
-		String query = "UPDATE Card SET type=?, name=?, WHERE deckId=? AND cardId=?";
+		String query = "UPDATE Card SET type=?, name=?, basic =? WHERE deckId=? AND cardId=?";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setString(1, type);
 		ps.setString(2, name);
-		ps.setLong(3, deckId);
-		ps.setLong(4, cardId);
+		ps.setString(3, basic);
+		ps.setLong(4, deckId);
+		ps.setLong(5, cardId);
 		
 		return ps.executeUpdate();
 	}

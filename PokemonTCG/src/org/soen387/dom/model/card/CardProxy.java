@@ -63,4 +63,13 @@ public class CardProxy extends DomainObjectProxy<Long, Card> implements ICard{
 		getInnerObject().setName(name);
 	}
 
+	@Override
+	public String getBasic() {
+		return getInnerObject().getBasic();
+	}
+
+	@Override
+	public void setBasic(String basic) {
+		getInnerObject().setBasic(basic);
+	}
 }
