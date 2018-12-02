@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.dsrg.soenea.service.UniqueIdFactory;
 import org.dsrg.soenea.service.threadLocal.DbRegistry;
 
 public class DeckTDG {
@@ -56,5 +57,9 @@ public class DeckTDG {
 		ps.setLong(1, userId);
 		
 		return ps.executeUpdate();
+	}
+	
+	public static long getMaxId() throws SQLException {
+		return UniqueIdFactory.getMaxId(BASE, "deckId");
 	}
 }

@@ -19,8 +19,9 @@ public class UploadDeck extends Dispatcher {
 		UploadDeckCommand c = new UploadDeckCommand(myHelper);
 		try {
 			myRequest.getSession(true).invalidate();
+			myRequest.getSession(true).setAttribute("userId", myHelper.getSessionAttribute("id")); // User Id is not working properly.
 			c.execute();
-			myRequest.getSession(true).setAttribute(RequestAttributes.CURRENT_USER_ID, c.currentUser.getId());
+//			myRequest.getSession(true).setAttribute(RequestAttributes.CURRENT_USER_ID, c.currentUser.getId());
 			try {
 				UoW.getCurrent().commit();
 				forward("/WEB-INF/jsp/success.jsp");
@@ -29,6 +30,7 @@ public class UploadDeck extends Dispatcher {
 				forward("/WEB-INF/jsp/fail.jsp");
 			}
 		} catch (CommandException e) {
+			e.printStackTrace();
 			forward("/WEB-INF/jsp/fail.jsp");
 		}
 		

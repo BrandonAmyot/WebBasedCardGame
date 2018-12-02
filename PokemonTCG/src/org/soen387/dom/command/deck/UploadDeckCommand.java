@@ -6,13 +6,20 @@ import org.dsrg.soenea.domain.command.impl.annotation.SetInRequestAttribute;
 import org.dsrg.soenea.domain.command.validator.source.Source;
 import org.dsrg.soenea.domain.helper.Helper;
 import org.dsrg.soenea.domain.user.IUser;
+import org.dsrg.soenea.uow.UoW;
 import org.soen387.dom.model.card.Card;
 import org.soen387.dom.model.card.Mappers.CardOutputMapper;
+import org.soen387.dom.model.deck.Deck;
+import org.soen387.dom.model.deck.Mappers.DeckOutputMapper;
+import org.soen387.dom.model.deck.ts.DeckTDG;
 
 public class UploadDeckCommand extends ValidatorCommand {
 
 	@Source
 	public String deck;
+	
+	@SetInRequestAttribute
+	public long userId;
 
 	@SetInRequestAttribute
 	public IUser currentUser;
@@ -31,7 +38,8 @@ public class UploadDeckCommand extends ValidatorCommand {
 //					throw new CommandException(message);					
 //				}
 //			} catch(MapperException e) {}
-			long userId = currentUser.getId();
+//			long userId = ;
+			long deckId = DeckTDG.getMaxId();
 			String[] deckOfCards = deck.split("\n");
 			if(deckOfCards.length != 40) {
 				throw new InstantiationException("You must upload a deck of 40 cards.");
@@ -43,13 +51,15 @@ public class UploadDeckCommand extends ValidatorCommand {
 					String type = line[0];
 					String name = line[1];
 					String basic = null;
-					if(!line[2].isEmpty()) {
+					if(line.length == 3 && !line[2].isEmpty()) {
 						basic = line[2];
 					}
-					Card card = new Card(userId, i, type, name, basic);
+					Card card = new Card(deckId, i, type, name, basic);
 					CardOutputMapper.insertStatic(card);
-//					UoW.getCurrent().registerClean(card);
+					UoW.getCurrent().registerClean(card); // UoW not working properly.
 				}
+				Deck deck = new Deck(deckId, userId);
+				DeckOutputMapper.insertStatic(deck);
 			}
 			
 		}

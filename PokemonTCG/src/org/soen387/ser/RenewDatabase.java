@@ -4,7 +4,7 @@ import org.dsrg.soenea.service.tdg.UserTDG;
 import org.soen387.app.PokeFC;
 import org.soen387.dom.model.card.ts.CardTDG;
 import org.soen387.dom.model.challenge.TDG.ChallengeTDG;
-import org.soen387.dom.model.deck.TS.DeckTDG;
+import org.soen387.dom.model.deck.ts.DeckTDG;
 
 public class RenewDatabase {
 

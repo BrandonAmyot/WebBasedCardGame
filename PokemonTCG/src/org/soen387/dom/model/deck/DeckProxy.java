@@ -3,7 +3,6 @@ package org.soen387.dom.model.deck;
 import org.dsrg.soenea.domain.DomainObjectCreationException;
 import org.dsrg.soenea.domain.MapperException;
 import org.dsrg.soenea.domain.proxy.DomainObjectProxy;
-import org.soen387.dom.model.card.Mappers.CardInputMapper;
 import org.soen387.dom.model.deck.Mappers.DeckInputMapper;
 
 public class DeckProxy extends DomainObjectProxy<Long, Deck> implements IDeck {
