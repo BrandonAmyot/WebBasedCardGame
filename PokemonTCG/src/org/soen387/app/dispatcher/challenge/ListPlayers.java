@@ -14,7 +14,6 @@ public class ListPlayers extends Dispatcher {
 	public void execute() throws ServletException, IOException {
 		ListPlayersCommand c = new ListPlayersCommand(myHelper);
 		try {
-			myRequest.getSession(true).invalidate();
 			c.execute();
 			myRequest.getSession(true).setAttribute("list", c.listOfUsers);
 			forward("/WEB-INF/jsp/listPlayers.jsp");

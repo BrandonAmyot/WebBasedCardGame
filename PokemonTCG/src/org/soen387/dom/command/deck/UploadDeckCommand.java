@@ -8,6 +8,7 @@ import org.dsrg.soenea.domain.helper.Helper;
 import org.dsrg.soenea.domain.user.IUser;
 import org.dsrg.soenea.uow.UoW;
 import org.soen387.dom.model.card.Card;
+import org.soen387.dom.model.card.CardFactory;
 import org.soen387.dom.model.card.Mappers.CardOutputMapper;
 import org.soen387.dom.model.deck.Deck;
 import org.soen387.dom.model.deck.Mappers.DeckOutputMapper;
@@ -17,9 +18,6 @@ public class UploadDeckCommand extends ValidatorCommand {
 
 	@Source
 	public String deck;
-
-	@SetInRequestAttribute
-	public IUser currentUser;
 	
 	public UploadDeckCommand(Helper helper) {
 		super(helper);
@@ -29,7 +27,6 @@ public class UploadDeckCommand extends ValidatorCommand {
 	public void process() throws CommandException {
 		try {
 			long userId = (long) helper.getSessionAttribute("userId");
-//			long userId = currentUser.getId();
 			long deckId = DeckTDG.getMaxId();
 			String[] deckOfCards = deck.split("\n");
 			
@@ -46,9 +43,7 @@ public class UploadDeckCommand extends ValidatorCommand {
 					if(line.length == 3 && !line[2].isEmpty()) {
 						basic = line[2];
 					}
-					Card card = new Card(deckId, i, type, name, basic);
-					CardOutputMapper.insertStatic(card);
-					UoW.getCurrent().registerClean(card); // UoW not working properly.
+					CardFactory.createNew(deckId, i, type, name, basic);
 				}
 				Deck deck = new Deck(deckId, userId);
 				DeckOutputMapper.insertStatic(deck);

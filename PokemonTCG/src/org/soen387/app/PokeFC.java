@@ -40,6 +40,8 @@ import org.dsrg.soenea.uow.MapperFactory;
 import org.dsrg.soenea.uow.UoW;
 import org.soen387.dom.model.card.Card;
 import org.soen387.dom.model.card.Mappers.CardOutputMapper;
+import org.soen387.dom.model.challenge.Challenge;
+import org.soen387.dom.model.challenge.Mappers.ChallengeOutputMapper;
 import org.soen387.dom.model.deck.Deck;
 import org.soen387.dom.model.deck.Mappers.DeckOutputMapper;
 
@@ -152,7 +154,7 @@ public class PokeFC extends Servlet {
 		 myDomain2MapperMapper.addMapping(User.class, UserOutputMapper.class);
 		 myDomain2MapperMapper.addMapping(Card.class, CardOutputMapper.class);
 		 myDomain2MapperMapper.addMapping(Deck.class, DeckOutputMapper.class);
-//		 myDomain2MapperMapper.addMapping(Challenge.class, UserOutputMapper.class);
+		 myDomain2MapperMapper.addMapping(Challenge.class, ChallengeOutputMapper.class);
 		 UoW.initMapperFactory(myDomain2MapperMapper);
 	 } 
 	
