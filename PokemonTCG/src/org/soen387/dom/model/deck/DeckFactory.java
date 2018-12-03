@@ -7,13 +7,13 @@ import org.dsrg.soenea.uow.MissingMappingException;
 import org.dsrg.soenea.uow.UoW;
 
 public class DeckFactory {
-	public static Deck createNew(long deckId, long userId, String type, String name, String basic) throws SQLException, MissingMappingException, MapperException {
+	public static Deck createNew(long deckId, long userId) throws SQLException, MissingMappingException, MapperException {
         Deck result = new Deck(deckId, userId);
         UoW.getCurrent().registerNew(result);
         return result;
     }
     
-    public static Deck createClean(long deckId, long userId, String type, String name, String basic) throws SQLException, MissingMappingException, MapperException {
+    public static Deck createClean(long deckId, long userId) throws SQLException, MissingMappingException, MapperException {
         Deck result = new Deck(deckId, userId);
         UoW.getCurrent().registerClean(result);
         return result;

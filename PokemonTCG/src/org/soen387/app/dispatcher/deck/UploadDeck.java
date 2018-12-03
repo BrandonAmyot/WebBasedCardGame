@@ -23,7 +23,7 @@ public class UploadDeck extends Dispatcher {
 			try {
 				UoW.getCurrent().commit();
 				myHelper.setRequestAttribute("message", "Successfully uploaded a deck!");
-				forward("/WEB-INF/jsp/success.jsp");
+				forward("/WEB-INF/jsp/success.jsp"); 
 			} catch (InstantiationException | IllegalAccessException | MapperException | SQLException e) {
 				myHelper.setRequestAttribute("message", e.getMessage());
 				forward("/WEB-INF/jsp/fail.jsp");

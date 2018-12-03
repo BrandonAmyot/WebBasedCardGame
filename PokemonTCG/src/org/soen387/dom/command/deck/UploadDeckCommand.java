@@ -11,6 +11,7 @@ import org.soen387.dom.model.card.Card;
 import org.soen387.dom.model.card.CardFactory;
 import org.soen387.dom.model.card.Mappers.CardOutputMapper;
 import org.soen387.dom.model.deck.Deck;
+import org.soen387.dom.model.deck.DeckFactory;
 import org.soen387.dom.model.deck.Mappers.DeckOutputMapper;
 import org.soen387.dom.model.deck.ts.DeckTDG;
 
@@ -31,7 +32,7 @@ public class UploadDeckCommand extends ValidatorCommand {
 			String[] deckOfCards = deck.split("\n");
 			
 			if(deckOfCards.length != 40) {
-				throw new InstantiationException("You must upload a deck of 40 cards.");
+				throw new CommandException("You must upload a deck of 40 cards.");
 			}
 			else {
 				String[] line = new String[3];
@@ -40,13 +41,12 @@ public class UploadDeckCommand extends ValidatorCommand {
 					String type = line[0];
 					String name = line[1];
 					String basic = "";
-					if(line.length == 3 && !line[2].isEmpty()) {
+					if(line.length == 3) {
 						basic = line[2];
 					}
 					CardFactory.createNew(deckId, i, type, name, basic);
 				}
-				Deck deck = new Deck(deckId, userId);
-				DeckOutputMapper.insertStatic(deck);
+				DeckFactory.createNew(deckId, userId);
 			}
 			
 		}
