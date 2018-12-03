@@ -20,9 +20,6 @@ public class ViewDeckCommand extends ValidatorCommand {
 	@SetInRequestAttribute
 	public List<Card> deckOfCards;
 	
-	@SetInRequestAttribute
-	public long userId;
-	
 	public ViewDeckCommand(Helper helper) {
 		super(helper);
 	}
@@ -32,19 +29,23 @@ public class ViewDeckCommand extends ValidatorCommand {
 //		long deckId = (Long) helper.getSessionAttribute("deck");
 		
 		try {
-			userId = (Long) helper.getSessionAttribute("CurrentUserId");
-			Deck requestedDeck = DeckInputMapper.find(deckId);
-			
-			if(requestedDeck == null) {
-				throw new CommandException("Cannot view a deck that doesn't exist.");
-			}
-			if(requestedDeck.getUserId() != userId) {
-				throw new CommandException("Cannot view a deck that is not yours");
-			}
+//			long userId = (Long) helper.getSessionAttribute("CurrentUserId");
+//			Deck requestedDeck = DeckInputMapper.find(deckId);
+//			
+//			if(requestedDeck == null) {
+//				throw new CommandException("Cannot view a deck that doesn't exist.");
+//			}
+//			if(requestedDeck.getUserId() != userId) {
+//				throw new CommandException("Cannot view a deck that is not yours");
+//			}
 			
 			deckOfCards = CardInputMapper.viewDeck(deckId);
+			for(int i=0; i<deckOfCards.size(); i++) {
+				System.out.println(deckOfCards.get(i).getName());
+			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			throw new CommandException(e);
 		}
 	}

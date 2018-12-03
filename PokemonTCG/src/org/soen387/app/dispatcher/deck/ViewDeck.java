@@ -15,7 +15,7 @@ public class ViewDeck extends Dispatcher {
 	public void execute() throws ServletException, IOException {
 		ViewDeckCommand c = new ViewDeckCommand(myHelper);
 		try {
-			Long deckId = (Long) myRequest.getSession(true).getAttribute("deck");
+			Long deckId = Long.parseLong(myRequest.getParameter("deck"));
 			myRequest.getSession(true).setAttribute("deckId", deckId);
 			c.execute();
 		
@@ -23,6 +23,7 @@ public class ViewDeck extends Dispatcher {
 			forward("/WEB-INF/jsp/viewDeck.jsp");
 		}
 		catch(CommandException e) {
+			e.printStackTrace();
 			myHelper.setRequestAttribute("message", e.getMessage());
 			forward("/WEB-INF/jsp/fail.jsp");			
 		}

@@ -9,17 +9,19 @@ import org.dsrg.soenea.domain.MapperException;
 import org.dsrg.soenea.domain.ObjectRemovedException;
 import org.dsrg.soenea.domain.mapper.DomainObjectNotFoundException;
 import org.dsrg.soenea.domain.mapper.IdentityMap;
+import org.dsrg.soenea.uow.MissingMappingException;
 import org.dsrg.soenea.uow.UoW;
 import org.soen387.dom.model.card.Card;
 import org.soen387.dom.model.card.ts.CardFinder;
 
 
 public class CardInputMapper {
-	public static List<Card> viewDeck(Long deckId) throws SQLException, MapperException {
+	public static List<Card> viewDeck(Long deckId) throws SQLException, MapperException, InstantiationException, IllegalAccessException {
 		try {
 			ResultSet rs = CardFinder.viewDeck(deckId);
 			List<Card> deck = new ArrayList<Card>();			
 			deck = buildDeck(rs);
+			UoW.getCurrent().commit();
 			return deck;
 		}
 		catch(SQLException e) {
@@ -44,7 +46,7 @@ public class CardInputMapper {
 	}
 	
 	public static List<Card> buildDeck(ResultSet rs) 
-			throws SQLException, ObjectRemovedException, DomainObjectNotFoundException {
+			throws SQLException, MissingMappingException, MapperException {
 		List<Card> deck = new ArrayList<Card>();			
 		while(rs.next()) {
 			long cardId = rs.getLong("cardId");
@@ -55,7 +57,7 @@ public class CardInputMapper {
 			}
 			else {
 				c = buildCard(rs);
-				UoW.getCurrent().registerClean(c);
+				UoW.getCurrent().registerNew(c);
 			}
 			deck.add(c);
 		}
