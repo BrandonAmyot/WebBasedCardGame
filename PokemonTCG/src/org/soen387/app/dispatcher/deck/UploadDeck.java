@@ -6,12 +6,9 @@ import java.sql.SQLException;
 import javax.servlet.ServletException;
 
 import org.dsrg.soenea.application.servlet.dispatcher.Dispatcher;
-import org.dsrg.soenea.application.servlet.impl.RequestAttributes;
 import org.dsrg.soenea.domain.MapperException;
 import org.dsrg.soenea.domain.command.CommandException;
-import org.dsrg.soenea.domain.user.User;
 import org.dsrg.soenea.uow.UoW;
-import org.omg.CORBA.Current;
 import org.soen387.dom.command.deck.UploadDeckCommand;
 
 public class UploadDeck extends Dispatcher {
@@ -23,9 +20,9 @@ public class UploadDeck extends Dispatcher {
 			Long userId = (Long) myRequest.getSession(true).getAttribute("CurrentUserId");
 			myRequest.getSession(true).setAttribute("userId", userId);
 			c.execute();
-			myRequest.getSession(true).setAttribute(RequestAttributes.CURRENT_USER_ID, c.currentUser.getId());
 			try {
 				UoW.getCurrent().commit();
+				myHelper.setRequestAttribute("message", "Successfully uploaded a deck!");
 				forward("/WEB-INF/jsp/success.jsp");
 			} catch (InstantiationException | IllegalAccessException | MapperException | SQLException e) {
 				myHelper.setRequestAttribute("message", e.getMessage());
@@ -33,6 +30,7 @@ public class UploadDeck extends Dispatcher {
 			}
 		} catch (CommandException e) {
 			e.printStackTrace();
+			myHelper.setRequestAttribute("message", e.getMessage());
 			forward("/WEB-INF/jsp/fail.jsp");
 		}
 		

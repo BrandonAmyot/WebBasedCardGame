@@ -28,16 +28,11 @@ public class UploadDeckCommand extends ValidatorCommand {
 	@Override
 	public void process() throws CommandException {
 		try {
-//			try {
-//				currentUser = UserInputMapper.find(helper.getSessionId());
-//				if(currentUser == null) {
-//					String message = "You must be logged in to upload a deck!";
-//					throw new CommandException(message);					
-//				}
-//			} catch(MapperException e) {}
 			long userId = (long) helper.getSessionAttribute("userId");
+//			long userId = currentUser.getId();
 			long deckId = DeckTDG.getMaxId();
 			String[] deckOfCards = deck.split("\n");
+			
 			if(deckOfCards.length != 40) {
 				throw new InstantiationException("You must upload a deck of 40 cards.");
 			}
