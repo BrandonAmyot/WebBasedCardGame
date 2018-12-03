@@ -10,12 +10,14 @@ import org.dsrg.soenea.domain.MapperException;
 import org.dsrg.soenea.domain.command.CommandException;
 import org.dsrg.soenea.uow.UoW;
 import org.soen387.dom.command.deck.UploadDeckCommand;
+import org.soen387.dom.command.deck.ViewDecksCommand;
 
-public class UploadDeck extends Dispatcher {
+public class ManageDeck extends Dispatcher {
 
 	@Override
 	public void execute() throws ServletException, IOException {
 		UploadDeckCommand c = new UploadDeckCommand(myHelper);
+		ViewDecksCommand d = new ViewDecksCommand(myHelper);
 		try {
 			Long userId = (Long) myRequest.getSession(true).getAttribute("CurrentUserId");
 			myRequest.getSession(true).setAttribute("userId", userId);
