@@ -17,9 +17,6 @@ public class UploadDeckCommand extends ValidatorCommand {
 
 	@Source
 	public String deck;
-	
-	@SetInRequestAttribute
-	public long userId;
 
 	@SetInRequestAttribute
 	public IUser currentUser;
@@ -38,7 +35,7 @@ public class UploadDeckCommand extends ValidatorCommand {
 //					throw new CommandException(message);					
 //				}
 //			} catch(MapperException e) {}
-//			long userId = ;
+			long userId = (long) helper.getSessionAttribute("userId");
 			long deckId = DeckTDG.getMaxId();
 			String[] deckOfCards = deck.split("\n");
 			if(deckOfCards.length != 40) {
@@ -50,7 +47,7 @@ public class UploadDeckCommand extends ValidatorCommand {
 					line = deckOfCards[i].split(" ");
 					String type = line[0];
 					String name = line[1];
-					String basic = null;
+					String basic = "";
 					if(line.length == 3 && !line[2].isEmpty()) {
 						basic = line[2];
 					}

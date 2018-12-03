@@ -9,7 +9,9 @@ import org.dsrg.soenea.application.servlet.dispatcher.Dispatcher;
 import org.dsrg.soenea.application.servlet.impl.RequestAttributes;
 import org.dsrg.soenea.domain.MapperException;
 import org.dsrg.soenea.domain.command.CommandException;
+import org.dsrg.soenea.domain.user.User;
 import org.dsrg.soenea.uow.UoW;
+import org.omg.CORBA.Current;
 import org.soen387.dom.command.deck.UploadDeckCommand;
 
 public class UploadDeck extends Dispatcher {
@@ -18,10 +20,10 @@ public class UploadDeck extends Dispatcher {
 	public void execute() throws ServletException, IOException {
 		UploadDeckCommand c = new UploadDeckCommand(myHelper);
 		try {
-			myRequest.getSession(true).invalidate();
-			myRequest.getSession(true).setAttribute("userId", myHelper.getSessionAttribute("id")); // User Id is not working properly.
+			Long userId = (Long) myRequest.getSession(true).getAttribute("CurrentUserId");
+			myRequest.getSession(true).setAttribute("userId", userId);
 			c.execute();
-//			myRequest.getSession(true).setAttribute(RequestAttributes.CURRENT_USER_ID, c.currentUser.getId());
+			myRequest.getSession(true).setAttribute(RequestAttributes.CURRENT_USER_ID, c.currentUser.getId());
 			try {
 				UoW.getCurrent().commit();
 				forward("/WEB-INF/jsp/success.jsp");

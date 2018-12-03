@@ -35,7 +35,7 @@ public class CardTDG {
 	
 	public static int insert(long deckId, long cardId, String type, String name, String basic) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
-		String query = "INSERT INTO Card VALUES (?,?,?,?,?);";
+		String query = "INSERT INTO " + TABLE_NAME + " VALUES (?,?,?,?,?);";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, deckId);
 		ps.setLong(2, cardId);
@@ -47,7 +47,7 @@ public class CardTDG {
 	}
 	public static int update(long deckId, long cardId, String type, String name, String basic) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
-		String query = "UPDATE Card SET type=?, name=?, basic =? WHERE deckId=? AND cardId=?";
+		String query = "UPDATE " + TABLE_NAME + " SET type=?, name=?, basic =? WHERE deckId=? AND cardId=?";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setString(1, type);
 		ps.setString(2, name);
@@ -59,7 +59,7 @@ public class CardTDG {
 	}
 	public static int delete(long deckId, long cardId) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
-		String query = "DELETE FROM Card WHERE deckId=? AND cardId=?;";
+		String query = "DELETE FROM " + TABLE_NAME + " WHERE deckId=? AND cardId=?;";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, deckId);
 		ps.setLong(2, cardId);
