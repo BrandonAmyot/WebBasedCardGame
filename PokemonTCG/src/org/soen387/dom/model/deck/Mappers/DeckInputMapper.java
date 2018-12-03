@@ -2,6 +2,7 @@ package org.soen387.dom.model.deck.Mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.dsrg.soenea.domain.MapperException;
@@ -9,8 +10,6 @@ import org.dsrg.soenea.domain.ObjectRemovedException;
 import org.dsrg.soenea.domain.mapper.DomainObjectNotFoundException;
 import org.dsrg.soenea.domain.mapper.IdentityMap;
 import org.dsrg.soenea.uow.UoW;
-import org.soen387.dom.model.card.Card;
-import org.soen387.dom.model.card.Mappers.CardInputMapper;
 import org.soen387.dom.model.deck.Deck;
 import org.soen387.dom.model.deck.ts.DeckFinder;
 
@@ -34,7 +33,8 @@ public class DeckInputMapper {
 	public static List<Deck> findAll(Long userId) throws SQLException, MapperException {
 		try {
 			ResultSet rs = DeckFinder.findAll(userId);
-			List<Deck> decks = null;
+			List<Deck> decks = new ArrayList<Deck>();
+			
 			while(rs.next()) {
 				long deckId = rs.getLong("deckId");
 				Deck d = null;

@@ -6,12 +6,9 @@
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 {
-	"deck": {
-		"id": ${id},
-		"cards": [
-			<c:forEach items="${deckOfCards}" var="card" varStatus="loop">
-		   		{"t": "${card.type}", "n": "${card.name}", "b": "${card.basic}"}<c:if test="${!loop.last}">,</c:if>
-			</c:forEach>
-		]
-	}
+	"cards": [
+		<c:forEach items="${deckOfCards}" var="card" varStatus="loop">
+	   		{"t": "${card.type}", "n": "${card.name}", <c:if test="">"b": "${card.basic}</c:if>"}<c:if test="${!loop.last}">,</c:if>
+		</c:forEach>
+	]
 }
