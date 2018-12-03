@@ -15,13 +15,13 @@ import org.soen387.dom.model.deck.Mappers.DeckInputMapper;
 public class ViewDeckCommand extends ValidatorCommand {
 	
 	@Source
-	public long deck;
+	public long deckId;
 	
 	@SetInRequestAttribute
 	public List<Card> deckOfCards;
 	
 	@SetInRequestAttribute
-	public long id;
+	public long userId;
 	
 	public ViewDeckCommand(Helper helper) {
 		super(helper);
@@ -29,13 +29,20 @@ public class ViewDeckCommand extends ValidatorCommand {
 
 	@Override
 	public void process() throws CommandException {
+//		long deckId = (Long) helper.getSessionAttribute("deck");
+		
 		try {
-			id = deck;
-			Deck userDeck = DeckInputMapper.find(id);
-			if(userDeck == null) {
+			userId = (Long) helper.getSessionAttribute("CurrentUserId");
+			Deck requestedDeck = DeckInputMapper.find(deckId);
+			
+			if(requestedDeck == null) {
 				throw new CommandException("Cannot view a deck that doesn't exist.");
 			}
-			deckOfCards = CardInputMapper.viewDeck(id);
+			if(requestedDeck.getUserId() != userId) {
+				throw new CommandException("Cannot view a deck that is not yours");
+			}
+			
+			deckOfCards = CardInputMapper.viewDeck(deckId);
 		}
 		catch(Exception e) {
 			throw new CommandException(e);

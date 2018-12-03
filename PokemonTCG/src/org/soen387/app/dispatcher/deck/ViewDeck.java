@@ -15,10 +15,11 @@ public class ViewDeck extends Dispatcher {
 	public void execute() throws ServletException, IOException {
 		ViewDeckCommand c = new ViewDeckCommand(myHelper);
 		try {
+			Long deckId = (Long) myRequest.getSession(true).getAttribute("deck");
+			myRequest.getSession(true).setAttribute("deckId", deckId);
 			c.execute();
 		
 			myRequest.getSession(true).setAttribute("deckOfCards", c.deckOfCards);
-			myRequest.getSession(true).setAttribute("id", c.id);
 			forward("/WEB-INF/jsp/viewDeck.jsp");
 		}
 		catch(CommandException e) {

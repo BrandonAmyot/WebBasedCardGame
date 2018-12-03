@@ -8,7 +8,7 @@
 {
 	"cards": [
 		<c:forEach items="${deckOfCards}" var="card" varStatus="loop">
-	   		{"t": "${card.type}", "n": "${card.name}", <c:if test="">"b": "${card.basic}</c:if>"}<c:if test="${!loop.last}">,</c:if>
+	   		{"id": ${card.cardId}, "t": "${card.type}", "n": "${card.name}", <c:if test="${card.basic} != null">"b": "${card.basic}</c:if>"}<c:if test="${!loop.last}">,</c:if>
 		</c:forEach>
 	]
 }
