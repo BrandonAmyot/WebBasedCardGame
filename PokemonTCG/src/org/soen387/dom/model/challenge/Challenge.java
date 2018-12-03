@@ -4,7 +4,6 @@ import org.dsrg.soenea.domain.DomainObject;
 
 public class Challenge extends DomainObject<Long> implements IChallenge{
 	
-	private static int currentId;
 	private long id, challenger, challengee;
 	private int status;
 	
@@ -32,15 +31,7 @@ public class Challenge extends DomainObject<Long> implements IChallenge{
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public static int getCurrentId() {
-		return currentId;
-	}
-	public static void setCurrentId(int currentId) {
-		Challenge.currentId = currentId;
-	}
-	public static void incrementCurrentId() {
-		currentId++;
-	}
+	
 	public Challenge(long id, long challenger, long challengee, int status) {
 		super(id);
 		this.id = id;

@@ -10,7 +10,7 @@ import org.dsrg.soenea.service.threadLocal.DbRegistry;
 public class DeckFinder {
 	public static ResultSet find(Long deckId) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
-		String query = "SELECT * FROM Deck WHERE deckId=?;";
+		String query = "SELECT * FROM " + DeckTDG.TABLE_NAME + " WHERE deckId=?;";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, deckId);
 		ResultSet rs = ps.executeQuery();
@@ -20,7 +20,7 @@ public class DeckFinder {
 	
 	public static ResultSet findAll(Long userId) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
-		String query = "SELECT * FROM Deck WHERE userId=?;";
+		String query = "SELECT * FROM " + DeckTDG.TABLE_NAME + " WHERE userId=?;";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, userId);
 		ResultSet rs = ps.executeQuery();
