@@ -15,8 +15,10 @@ public class ViewDeck extends Dispatcher {
 	public void execute() throws ServletException, IOException {
 		ViewDeckCommand c = new ViewDeckCommand(myHelper);
 		try {
-			Long deckId = Long.parseLong(myRequest.getParameter("deck"));
+			String requestURI = myRequest.getRequestURI();
+			long deckId = Long.parseLong(requestURI.substring(requestURI.lastIndexOf('/') + 1));
 			myRequest.getSession(true).setAttribute("deckId", deckId);
+			
 			c.execute();
 		
 			myRequest.getSession(true).setAttribute("deckOfCards", c.deckOfCards);

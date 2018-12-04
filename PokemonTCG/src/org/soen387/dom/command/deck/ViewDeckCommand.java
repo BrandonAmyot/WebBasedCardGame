@@ -14,8 +14,8 @@ import org.soen387.dom.model.deck.Mappers.DeckInputMapper;
 
 public class ViewDeckCommand extends ValidatorCommand {
 	
-	@Source
-	public long deckId;
+//	@Source
+//	public long deckId;
 	
 	@SetInRequestAttribute
 	public List<Card> deckOfCards;
@@ -26,18 +26,18 @@ public class ViewDeckCommand extends ValidatorCommand {
 
 	@Override
 	public void process() throws CommandException {
-//		long deckId = (Long) helper.getSessionAttribute("deck");
+		long deckId = (Long) helper.getSessionAttribute("deckId");
 		
 		try {
-//			long userId = (Long) helper.getSessionAttribute("CurrentUserId");
-//			Deck requestedDeck = DeckInputMapper.find(deckId);
-//			
-//			if(requestedDeck == null) {
-//				throw new CommandException("Cannot view a deck that doesn't exist.");
-//			}
-//			if(requestedDeck.getUserId() != userId) {
-//				throw new CommandException("Cannot view a deck that is not yours");
-//			}
+			long userId = (Long) helper.getSessionAttribute("CurrentUserId");
+			Deck requestedDeck = DeckInputMapper.find(deckId);
+			
+			if(requestedDeck == null) {
+				throw new CommandException("Cannot view a deck that doesn't exist.");
+			}
+			if(requestedDeck.getUserId() != userId) {
+				throw new CommandException("Cannot view a deck that is not yours");
+			}
 			
 			deckOfCards = CardInputMapper.viewDeck(deckId);
 			for(int i=0; i<deckOfCards.size(); i++) {

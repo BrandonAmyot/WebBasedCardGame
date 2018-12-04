@@ -16,8 +16,9 @@ import org.soen387.dom.model.deck.ts.DeckFinder;
 public class DeckInputMapper {
 	public static Deck find(Long deckId) throws SQLException, MapperException {
 		try {
-			Deck deck = null;
 			ResultSet rs = DeckFinder.find(deckId);
+			Deck deck = null;
+			
 			if(IdentityMap.has(deckId, Deck.class)) {
 				deck = IdentityMap.get(deckId, Deck.class);
 			}
@@ -56,6 +57,7 @@ public class DeckInputMapper {
 
 	private static Deck buildSingleDeck(ResultSet rs) 
 			throws SQLException, ObjectRemovedException, DomainObjectNotFoundException, MapperException {
+		rs.first();
 		long deckId = rs.getLong("deckId");
 		Deck d = null;
 		if(IdentityMap.has(deckId, Deck.class)) {

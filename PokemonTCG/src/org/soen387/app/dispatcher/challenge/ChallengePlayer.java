@@ -17,6 +17,12 @@ public class ChallengePlayer extends Dispatcher {
 	public void execute() throws ServletException, IOException {
 		ChallengePlayerCommand c = new ChallengePlayerCommand(myHelper);
 		try {
+			String requestURI = myRequest.getRequestURI();
+			String[] urlParams = requestURI.split("/");
+			long challengee = Long.parseLong(urlParams[4]);
+			
+			myRequest.getSession(true).setAttribute("challengee", challengee);
+			
 			c.execute();
 			
 			try {
