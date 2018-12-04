@@ -26,8 +26,9 @@ public class ChallengeInputMapper {
 				c = new Challenge(rs.getLong("id"),
 						rs.getLong("challenger"),
 						rs.getLong("challengee"),
-						rs.getInt("status"));
-				UoW.getCurrent().registerClean(c);
+						rs.getInt("status"),
+						rs.getLong("challengerDeckId"));
+				UoW.getCurrent().registerNew(c);
 			}
 			challenges.add(c);
 		}
@@ -46,8 +47,9 @@ public class ChallengeInputMapper {
 			c = new Challenge(rs.getLong("id"),
 					rs.getLong("challenger"),
 					rs.getLong("challengee"),
-					rs.getInt("status"));
-			UoW.getCurrent().registerClean(c);
+					rs.getInt("status"),
+					rs.getLong("challengerDeckId"));
+			UoW.getCurrent().registerNew(c);
 		}
 
 		return c;
@@ -67,8 +69,9 @@ public class ChallengeInputMapper {
 				c = new Challenge(rs.getLong("id"),
 						rs.getLong("challenger"),
 						rs.getLong("challengee"),
-						rs.getInt("status"));
-				UoW.getCurrent().registerClean(c);
+						rs.getInt("status"),
+						rs.getLong("challengerDeckId"));
+				UoW.getCurrent().registerNew(c);
 			}
 			challenges.add(c);
 		}
@@ -90,8 +93,33 @@ public class ChallengeInputMapper {
 				c = new Challenge(rs.getLong("id"),
 						rs.getLong("challenger"),
 						rs.getLong("challengee"),
-						rs.getInt("status"));
-				UoW.getCurrent().registerClean(c);
+						rs.getInt("status"),
+						rs.getLong("challengerDeckId"));
+				UoW.getCurrent().registerNew(c);
+			}
+			challenges.add(c);
+		}
+
+		return challenges;
+	}
+	public static List<Challenge> findByUser(long userId) throws SQLException, MapperException {
+		List<Challenge> challenges = new ArrayList<Challenge>();
+		ResultSet rs = ChallengeFinder.findByUser(userId);
+		
+		while(rs.next()) {
+			Challenge c = null;
+			long id = rs.getLong("id");
+			
+			if(IdentityMap.has(id, Challenge.class)) {
+				c = IdentityMap.get(id, Challenge.class);
+			}
+			else {
+				c = new Challenge(rs.getLong("id"),
+						rs.getLong("challenger"),
+						rs.getLong("challengee"),
+						rs.getInt("status"),
+						rs.getLong("challengerDeckId"));
+				UoW.getCurrent().registerNew(c);
 			}
 			challenges.add(c);
 		}
@@ -113,8 +141,9 @@ public class ChallengeInputMapper {
 				c = new Challenge(rs.getLong("id"),
 						rs.getLong("challenger"),
 						rs.getLong("challengee"),
-						rs.getInt("status"));
-				UoW.getCurrent().registerClean(c);
+						rs.getInt("status"),
+						rs.getLong("challengerDeckId"));
+				UoW.getCurrent().registerNew(c);
 			}
 			challenges.add(c);
 		}

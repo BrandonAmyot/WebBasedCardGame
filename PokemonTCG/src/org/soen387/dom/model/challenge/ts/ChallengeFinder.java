@@ -44,6 +44,16 @@ public class ChallengeFinder {
 			
 		return rs;
 	}
+	public static ResultSet findByUser(long userId) throws SQLException {
+		Connection con = DbRegistry.getDbConnection();
+		String query = "SELECT * FROM " + ChallengeTDG.TABLE_NAME + " WHERE challenger=? OR challengee=?;";
+		PreparedStatement ps = con.prepareStatement(query);
+		ps.setLong(1, userId);
+		ps.setLong(2, userId);
+		ResultSet rs = ps.executeQuery();
+			
+		return rs;
+	}
 	public static ResultSet findAllOpen() throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
 		String query = "SELECT * FROM " + ChallengeTDG.TABLE_NAME + " WHERE status=0;";

@@ -75,4 +75,14 @@ public class ChallengeProxy extends DomainObjectProxy<Long, Challenge> implement
 		getInnerObject().setStatus(status);
 	}
 
+	@Override
+	public long getChallengerDeckId() {
+		return getInnerObject().getChallengerDeckId();
+	}
+
+	@Override
+	public void setChallengerDeckId(long challengerDeckId) {
+		getInnerObject().setChallengerDeckId(challengerDeckId);
+	}
+
 }

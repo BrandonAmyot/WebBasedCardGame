@@ -36,10 +36,10 @@ public class ChallengeOutputMapper extends GenericOutputMapper<Long, Challenge>{
 		}
 	}
 	public static void insertStatic(Challenge c) throws SQLException {
-		ChallengeTDG.insert(c.getId(), c.getChallenger(), c.getChallengee(), c.getStatus());
+		ChallengeTDG.insert(c.getId(), c.getChallenger(), c.getChallengee(), c.getStatus(), c.getChallengerDeckId());
 	}
 	public static void updateStatic(Challenge c) throws SQLException, LostUpdateException {
-		int update = ChallengeTDG.update(c.getId(), c.getChallenger(), c.getChallengee(), c.getStatus());
+		int update = ChallengeTDG.update(c.getId(), c.getChallenger(), c.getChallengee(), c.getStatus(), c.getChallengerDeckId());
 		if (update == 0)
 			throw new LostUpdateException("Lost update editing challenge with id " + c.getId());
 	}

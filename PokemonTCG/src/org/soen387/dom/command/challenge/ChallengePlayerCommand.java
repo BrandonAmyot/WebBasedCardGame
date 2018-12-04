@@ -43,7 +43,7 @@ public class ChallengePlayerCommand extends ValidatorCommand {
 				throw new CommandException ("You must both upload a deck before a challenge can be made.");
 			}
 			
-			ChallengeFactory.createNew(ChallengeTDG.getMaxId(), challenger, challengee, 0);
+			ChallengeFactory.createNew(ChallengeTDG.getMaxId(), challenger, challengee, 0, challengerDeck.getDeckId());
 		}
 		catch(SQLException | MapperException e) {
 			throw new CommandException(e);

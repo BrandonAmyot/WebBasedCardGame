@@ -17,7 +17,8 @@ public class ChallengeTDG {
 			+ "id long, "
 			+ "challenger long, "
 			+ "challengee long, "
-			+ "status int);";
+			+ "status int,"
+			+ "challengerDeckId long);";
 	
 	public static void createTable() throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
@@ -32,24 +33,26 @@ public class ChallengeTDG {
 		update.execute(DROP_TABLE);
 	}
 
-	public static int insert(long id, long challenger, long challengee, int status) throws SQLException {
+	public static int insert(long id, long challenger, long challengee, int status, long challengerDeckId) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
-		String query = "INSERT INTO " + TABLE_NAME + " VALUES (?,?,?,?);";
+		String query = "INSERT INTO " + TABLE_NAME + " VALUES (?,?,?,?,?);";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, id);
 		ps.setLong(2, challenger);
 		ps.setLong(3, challengee);
 		ps.setInt(4, status);
+		ps.setLong(5, challengerDeckId);
 		return ps.executeUpdate();
 	}
-	public static int update(long id, long challenger, long challengee, int status) throws SQLException {
+	public static int update(long id, long challenger, long challengee, int status, long challengerDeckId) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
-		String query = "UPDATE " + TABLE_NAME + " SET challenger=?, challengee=?, status=? WHERE id=?";
+		String query = "UPDATE " + TABLE_NAME + " SET challenger=?, challengee=?, status=?, challengerDeckId=? WHERE id=?";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, challenger);
 		ps.setLong(2, challengee);
 		ps.setInt(3, status);
-		ps.setLong(4, id);
+		ps.setLong(4, challengerDeckId);
+		ps.setLong(5, id);
 		return ps.executeUpdate();
 	}
 	public static int delete(long id) throws SQLException {

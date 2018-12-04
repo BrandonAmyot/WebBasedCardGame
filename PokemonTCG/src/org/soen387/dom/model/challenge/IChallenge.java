@@ -20,4 +20,8 @@ public interface IChallenge extends IDomainObject<Long>{
 	
 	public abstract void setStatus(int status);
 	
+	public abstract long getChallengerDeckId();
+	
+	public abstract void setChallengerDeckId(long challengerDeckId);
+	
 }
