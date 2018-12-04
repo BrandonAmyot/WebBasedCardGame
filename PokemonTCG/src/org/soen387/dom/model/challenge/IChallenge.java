@@ -8,6 +8,10 @@ public interface IChallenge extends IDomainObject<Long>{
 	
 	public abstract void setId(long id);
 	
+	public abstract long getVersion();
+	
+	public abstract void setVersion(long version);
+	
 	public abstract long getChallenger();
 	
 	public abstract void setChallenger(long challenger);

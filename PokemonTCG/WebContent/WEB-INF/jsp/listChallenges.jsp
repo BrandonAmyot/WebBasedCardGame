@@ -7,7 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 {
 	"challenges":[<c:forEach items="${list}" var="challenge" varStatus="loop">
-    		{"id": ${challenge.id}, "challenger": ${challenge.challenger}, "challengee": ${challenge.challengee}, "status": ${challenge.status}, "deck": ${challenge.challengerDeckId}}<c:if test="${!loop.last}">,</c:if>
+    		{"id": ${challenge.id}, "version": ${challenge.version}, "challenger": ${challenge.challenger}, "challengee": ${challenge.challengee}, "status": ${challenge.status}, "deck": ${challenge.challengerDeckId}}<c:if test="${!loop.last}">,</c:if>
 		</c:forEach>
 	]
 }

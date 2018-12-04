@@ -24,6 +24,7 @@ public class ChallengeInputMapper {
 			}
 			else {
 				c = new Challenge(rs.getLong("id"),
+						rs.getLong("version"),
 						rs.getLong("challenger"),
 						rs.getLong("challengee"),
 						rs.getInt("status"),
@@ -45,6 +46,7 @@ public class ChallengeInputMapper {
 		}
 		else {
 			c = new Challenge(rs.getLong("id"),
+					rs.getLong("version"),
 					rs.getLong("challenger"),
 					rs.getLong("challengee"),
 					rs.getInt("status"),
@@ -67,6 +69,7 @@ public class ChallengeInputMapper {
 			}
 			else {
 				c = new Challenge(rs.getLong("id"),
+						rs.getLong("version"),
 						rs.getLong("challenger"),
 						rs.getLong("challengee"),
 						rs.getInt("status"),
@@ -91,6 +94,7 @@ public class ChallengeInputMapper {
 			}
 			else {
 				c = new Challenge(rs.getLong("id"),
+						rs.getLong("version"),
 						rs.getLong("challenger"),
 						rs.getLong("challengee"),
 						rs.getInt("status"),
@@ -115,6 +119,7 @@ public class ChallengeInputMapper {
 			}
 			else {
 				c = new Challenge(rs.getLong("id"),
+						rs.getLong("version"),
 						rs.getLong("challenger"),
 						rs.getLong("challengee"),
 						rs.getInt("status"),
@@ -139,6 +144,7 @@ public class ChallengeInputMapper {
 			}
 			else {
 				c = new Challenge(rs.getLong("id"),
+						rs.getLong("version"),
 						rs.getLong("challenger"),
 						rs.getLong("challengee"),
 						rs.getInt("status"),

@@ -4,7 +4,7 @@ import org.dsrg.soenea.domain.DomainObject;
 
 public class Challenge extends DomainObject<Long> implements IChallenge{
 	
-	private long id, challenger, challengee, challengerDeckId;
+	private long id, version, challenger, challengee, challengerDeckId;
 	private int status;
 	
 	public Long getId() {
@@ -12,6 +12,12 @@ public class Challenge extends DomainObject<Long> implements IChallenge{
 	}
 	public void setId(long id) {
 		this.id = id;
+	}
+	public long getVersion() {
+		return version;
+	}
+	public void setVersion(long version) {
+		this.version = version;
 	}
 	public long getChallenger() {
 		return challenger;
@@ -37,9 +43,10 @@ public class Challenge extends DomainObject<Long> implements IChallenge{
 	public void setChallengerDeckId(long challengerDeckId) {
 		this.challengerDeckId = challengerDeckId;
 	}
-	public Challenge(long id, long challenger, long challengee, int status, long challengerDeckId) {
+	public Challenge(long id, long version, long challenger, long challengee, int status, long challengerDeckId) {
 		super(id);
 		this.id = id;
+		this.version = version;
 		this.challenger = challenger;
 		this.challengee = challengee;
 		this.status = status;

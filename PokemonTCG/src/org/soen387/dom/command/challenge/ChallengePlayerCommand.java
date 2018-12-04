@@ -19,7 +19,6 @@ public class ChallengePlayerCommand extends ValidatorCommand {
 	@Source
 	public long deck;
 	
-	
 	public ChallengePlayerCommand(Helper helper) {
 		super(helper);
 	}
@@ -43,7 +42,7 @@ public class ChallengePlayerCommand extends ValidatorCommand {
 				throw new CommandException ("You must both upload a deck before a challenge can be made.");
 			}
 			
-			ChallengeFactory.createNew(ChallengeTDG.getMaxId(), challenger, challengee, 0, challengerDeck.getDeckId());
+			ChallengeFactory.createNew(ChallengeTDG.getMaxId(), 1, challenger, challengee, 0, challengerDeck.getDeckId());
 		}
 		catch(SQLException | MapperException e) {
 			throw new CommandException(e);

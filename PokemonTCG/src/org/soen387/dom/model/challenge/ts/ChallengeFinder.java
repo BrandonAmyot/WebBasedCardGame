@@ -19,7 +19,7 @@ public class ChallengeFinder {
 	
 	public static ResultSet find(long id) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
-		String query = "SELECT id, challenger, challengee, status FROM " + ChallengeTDG.TABLE_NAME + " WHERE id=?;";
+		String query = "SELECT * status FROM " + ChallengeTDG.TABLE_NAME + " WHERE id=?;";
 		PreparedStatement ps = con.prepareStatement(query);
 		ps.setLong(1, id);
 		ResultSet rs = ps.executeQuery();
